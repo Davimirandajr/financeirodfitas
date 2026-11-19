@@ -270,7 +270,7 @@
             <div class="p-2.5 rounded-xl bg-rose-100 text-rose-900 border border-rose-300"><i data-lucide="file-plus-2" class="w-5 h-5"></i></div>
             <div>
               <h2 id="form-title" class="text-lg font-black text-rose-950">Registrar Lançamento</h2>
-              <p id="form-subtitle" class="text-xs text-stone-500">Preencha os campos específicos da categoria selecionada</p>
+              <p id="form-subtitle" class="text-xs text-stone-500">Fotos pesadas são comprimidas automaticamente ao anexar</p>
             </div>
           </div>
           <button type="button" onclick="closeForm()" class="px-3.5 py-1.5 rounded-xl bg-white hover:bg-rose-50 text-rose-950 text-xs font-bold border border-rose-900/20">
@@ -292,32 +292,32 @@
               </select>
             </div>
 
-            <!-- 2A. CAMPO FAVORECIDO / COLABORADOR / PESSOA (Salários, Fretes, Contas a Pagar) -->
+            <!-- 2A. CAMPO FAVORECIDO / COLABORADOR / PESSOA -->
             <div id="wrap-favorecido">
               <label id="lbl-favorecido" class="block text-xs font-bold text-rose-950 uppercase mb-1.5">Nome do Colaborador <span class="text-rose-700">*</span></label>
               <input type="text" id="inp-favorecido" placeholder="Digite o nome..." class="w-full bg-white border border-rose-900/20 rounded-xl px-3.5 py-2.5 text-sm text-stone-900 focus:outline-none focus:border-rose-800">
             </div>
 
-            <!-- 2B. SUBCATEGORIA DE DESPESA OPERACIONAL (Exclusivo Despesas Operacionais) -->
+            <!-- 2B. SUBCATEGORIA DE DESPESA OPERACIONAL -->
             <div id="wrap-subcategoria-op" class="hidden">
               <label class="block text-xs font-bold text-rose-950 uppercase mb-1.5">Tipo de Despesa Operacional <span class="text-rose-700">*</span></label>
               <select id="inp-subcategoria-op" class="w-full bg-white border border-rose-900/20 rounded-xl px-3.5 py-2.5 text-sm font-bold text-stone-900 focus:outline-none focus:border-rose-800">
                 <option value="Limpeza e Higiene">Limpeza e Higiene</option>
                 <option value="Insumos para Loja">Insumos para Loja (Embalagens, Etiquetas, etc.)</option>
                 <option value="Material de Escritório / Papelaria">Material de Escritório / Papelaria</option>
-                <option value="Lanches/ Cursos / Café"> Lanches/ Cursos / Café</option>
+                <option value="Copa / Cozinha / Café">Copa / Cozinha / Café</option>
                 <option value="Manutenção e Reparos">Manutenção e Reparos</option>
                 <option value="Outros Gastos Operacionais">Outros Gastos Operacionais</option>
               </select>
             </div>
 
-            <!-- 3A. NÚMERO DA NOTA FISCAL (Exclusivo Contas a Pagar) -->
+            <!-- 3A. NÚMERO DA NOTA FISCAL -->
             <div id="wrap-numero-nf" class="hidden">
               <label class="block text-xs font-bold text-rose-950 uppercase mb-1.5">Nº da Nota Fiscal / Documento</label>
               <input type="text" id="inp-numero" placeholder="Ex: NF-00451 ou Boleto 123" class="w-full bg-white border border-rose-900/20 rounded-xl px-3.5 py-2.5 text-sm text-stone-900 focus:outline-none focus:border-rose-800">
             </div>
 
-            <!-- 3B. TIPO DE GASTO FRETE (Exclusivo Fretes & Logística) -->
+            <!-- 3B. TIPO DE GASTO FRETE -->
             <div id="wrap-tipo-frete" class="hidden">
               <label class="block text-xs font-bold text-rose-950 uppercase mb-1.5">Qual foi o Gasto? <span class="text-rose-700">*</span></label>
               <select id="inp-tipo-frete" class="w-full bg-white border border-rose-900/20 rounded-xl px-3.5 py-2.5 text-sm font-bold text-stone-900 focus:outline-none focus:border-rose-800">
@@ -329,7 +329,7 @@
               </select>
             </div>
 
-            <!-- 3C. LISTA DINÂMICA DE ITENS (Exclusivo Despesas Operacionais) -->
+            <!-- 3C. LISTA DINÂMICA DE ITENS -->
             <div id="wrap-itens-op" class="hidden md:col-span-2 lg:col-span-3 bg-rose-50/70 p-4 rounded-xl border border-rose-900/15 space-y-2.5">
               <div class="flex items-center justify-between">
                 <label class="block text-xs font-bold text-rose-950 uppercase">Item / Itens Comprados <span class="text-rose-700">*</span></label>
@@ -338,9 +338,7 @@
                   <span>Adicionar Item</span>
                 </button>
               </div>
-              <div id="op-items-list" class="space-y-2">
-                <!-- Linhas de itens adicionadas dinamicamente -->
-              </div>
+              <div id="op-items-list" class="space-y-2"></div>
             </div>
 
             <!-- 4. VALOR -->
@@ -355,7 +353,7 @@
               <input type="date" id="inp-emissao" required class="w-full bg-white border border-rose-900/20 rounded-xl px-3.5 py-2.5 text-sm text-stone-900 focus:outline-none focus:border-rose-800">
             </div>
 
-            <!-- 6. DATA DE VENCIMENTO (Somente Salários & Contas a Pagar) -->
+            <!-- 6. DATA DE VENCIMENTO -->
             <div id="wrap-vencimento">
               <label class="block text-xs font-bold text-rose-950 uppercase mb-1.5">Data de Vencimento (Alerta) <span class="text-rose-700">*</span></label>
               <input type="date" id="inp-vencimento" class="w-full bg-white border border-rose-900/20 rounded-xl px-3.5 py-2.5 text-sm text-stone-900 focus:outline-none focus:border-rose-800">
@@ -383,15 +381,15 @@
               </select>
             </div>
 
-            <!-- 9. ANEXO ÚNICO -->
+            <!-- 9. ANEXO ÚNICO (COM COMPRESSÃO AUTOMÁTICA DE FOTO) -->
             <div>
-              <label class="block text-xs font-bold text-rose-950 uppercase mb-1.5">Anexo Único (NF-e / PDF / Comprovante)</label>
+              <label class="block text-xs font-bold text-rose-950 uppercase mb-1.5">Anexo Único (Foto / PDF / Comprovante)</label>
               <div id="drop-zone" onclick="document.getElementById('file-input').click()" class="border-2 border-dashed border-rose-900/25 hover:border-rose-700 rounded-xl px-3 py-2 text-center cursor-pointer bg-white transition-all h-[42px] flex items-center justify-center">
-                <input type="file" id="file-input" class="hidden" accept=".pdf,.png,.jpg,.jpeg" onchange="handleFileSelect(event)">
+                <input type="file" id="file-input" class="hidden" accept=".pdf,.png,.jpg,.jpeg,.webp" onchange="handleFileSelect(event)">
                 
                 <div id="upload-placeholder" class="flex items-center space-x-2 text-xs text-stone-600 font-semibold">
-                  <i data-lucide="paperclip" class="w-4 h-4 text-rose-800"></i>
-                  <span>Anexar PDF ou Imagem (Opcional)</span>
+                  <i data-lucide="camera" class="w-4 h-4 text-rose-800"></i>
+                  <span>Foto ou PDF (comprime auto)</span>
                 </div>
 
                 <div id="upload-preview" class="hidden flex items-center justify-between w-full text-xs">
@@ -429,7 +427,7 @@
               <i data-lucide="list-checks" class="w-5 h-5 text-rose-800"></i>
               Histórico de Despesas & Notas Fiscais
             </h2>
-            <p class="text-xs text-stone-500">Clique no ícone do documento para abrir a NF/PDF na tela ou dê baixa rápida com 1 clique</p>
+            <p class="text-xs text-stone-500">Clique no ícone do documento para abrir a foto/PDF na tela ou dê baixa rápida com 1 clique</p>
           </div>
           <div id="table-counter" class="text-xs font-mono bg-rose-50 border border-rose-900/20 text-rose-950 px-3.5 py-1.5 rounded-xl font-bold self-start lg:self-auto">
             0 lançamentos
@@ -478,7 +476,7 @@
                 <th class="py-3.5 px-4">Datas</th>
                 <th class="py-3.5 px-4">Valor</th>
                 <th class="py-3.5 px-4 text-center">Situação / Alerta</th>
-                <th class="py-3.5 px-4 text-center">NF / PDF</th>
+                <th class="py-3.5 px-4 text-center">Foto / PDF</th>
                 <th class="py-3.5 px-4 text-right">Ações</th>
               </tr>
             </thead>
@@ -490,7 +488,7 @@
     </main>
   </div>
 
-  <!-- MODAL DE VISUALIZAÇÃO NATIVA DE PDF / NOTA FISCAL -->
+  <!-- MODAL DE VISUALIZAÇÃO NATIVA DE PDF / FOTO -->
   <div id="preview-modal" class="fixed inset-0 z-50 hidden bg-rose-950/75 backdrop-blur-md flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl max-w-4xl w-full h-[85vh] flex flex-col shadow-2xl border border-rose-900/20 overflow-hidden">
       <div class="flex items-center justify-between px-6 py-4 border-b border-rose-900/15 bg-rose-50/70">
@@ -549,8 +547,8 @@
             <input type="date" id="edit-vencimento" class="w-full bg-white border border-rose-900/20 rounded-xl px-3 py-2 text-xs">
           </div>
           <div class="sm:col-span-2">
-            <label class="block text-xs font-bold text-rose-950 uppercase mb-1">Substituir Anexo Único (Opcional)</label>
-            <input type="file" id="edit-file" accept=".pdf,.png,.jpg,.jpeg" class="w-full text-xs text-stone-600 file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-rose-100 file:text-rose-950">
+            <label class="block text-xs font-bold text-rose-950 uppercase mb-1">Substituir Foto ou PDF (comprime auto)</label>
+            <input type="file" id="edit-file" accept=".pdf,.png,.jpg,.jpeg,.webp" class="w-full text-xs text-stone-600 file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-rose-100 file:text-rose-950">
           </div>
           <div class="sm:col-span-2">
             <label class="block text-xs font-bold text-rose-950 uppercase mb-1">Observações</label>
@@ -639,6 +637,66 @@
     };
 
     // =========================================================================
+    // COMPRESSÃO AUTOMÁTICA DE FOTO E PROCESSAMENTO DE ANEXO
+    // =========================================================================
+    function compressImageFile(file, maxWidth = 1280, quality = 0.72) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onerror = reject;
+        reader.onload = (evt) => {
+          const img = new Image();
+          img.onerror = reject;
+          img.onload = () => {
+            let { width, height } = img;
+            if (width > maxWidth) {
+              height = Math.round((height * maxWidth) / width);
+              width = maxWidth;
+            }
+            const canvas = document.createElement('canvas');
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+            resolve(canvas.toDataURL('image/jpeg', quality));
+          };
+          img.src = evt.target.result;
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    async function processAttachmentFile(file, currentFallback = { name: null, data: null }) {
+      if (!file) return currentFallback;
+
+      if (file.type.startsWith('image/')) {
+        let compressed = await compressImageFile(file, 1280, 0.72);
+        if (compressed.length > 950 * 1024) {
+          compressed = await compressImageFile(file, 960, 0.58);
+        }
+        if (compressed.length > 1000 * 1024) {
+          showToast('A foto continuou grande após compressão; o anexo anterior foi mantido.', 'warning');
+          return currentFallback;
+        }
+        const cleanName = file.name.replace(/\.[^.]+$/, '') + '.jpg';
+        return { name: cleanName, data: compressed };
+      }
+
+      if (file.size > 850 * 1024) {
+        showToast('Para PDF, use arquivos de até 850 KB ou tire uma foto do comprovante.', 'warning');
+        return currentFallback;
+      }
+
+      const dataUrl = await new Promise((resolve, reject) => {
+        const r = new FileReader();
+        r.onerror = reject;
+        r.onload = (ev) => resolve(ev.target.result);
+        r.readAsDataURL(file);
+      });
+
+      return { name: file.name, data: dataUrl };
+    }
+
+    // =========================================================================
     // ADAPTAÇÃO DINÂMICA DOS CAMPOS DO FORMULÁRIO POR CATEGORIA
     // =========================================================================
     window.adaptFormFields = (categoria) => {
@@ -658,7 +716,6 @@
       const inpVencimento = document.getElementById('inp-vencimento');
       const inpStatus = document.getElementById('inp-status');
 
-      // Reseta visibilidades
       wrapFavorecido.classList.add('hidden');
       inpFavorecido.required = false;
       wrapSubOp.classList.add('hidden');
@@ -702,7 +759,6 @@
         inpStatus.value = 'Pago';
 
       } else {
-        // Contas a Pagar & Fixas
         wrapFavorecido.classList.remove('hidden');
         lblFavorecido.innerHTML = 'Fornecedor / Empresa <span class="text-rose-700">*</span>';
         inpFavorecido.placeholder = 'Ex: Equatorial Energia, Fornecedor de Fitas...';
@@ -718,7 +774,6 @@
       lucide.createIcons();
     };
 
-    // ADICIONAR / REMOVER ITENS EM DESPESAS OPERACIONAIS
     window.addOpItemRow = (valorInicial = '') => {
       const container = document.getElementById('op-items-list');
       const row = document.createElement('div');
@@ -742,7 +797,6 @@
       }
     };
 
-    // LÓGICA DE VENCIMENTO E ALERTAS (Só alerta categorias com vencimento)
     function getVencimentoStatus(item) {
       if (item.status === 'Pago') return 'PAGO';
       if (!item.vencimento) return 'NO_PRAZO';
@@ -765,6 +819,8 @@
         despesasList.sort((a, b) => (b.emissao || '').localeCompare(a.emissao || ''));
         populateMonths();
         window.renderAll();
+      }, (err) => {
+        showToast('Erro de conexão com o banco: ' + err.message, 'warning');
       });
     }
 
@@ -931,7 +987,6 @@
         if (item.categoria === 'Despesas Operacionais & Administrativas') catBadge = 'bg-rose-100 text-rose-900 border-rose-300';
         if (item.categoria === 'Contas a Pagar & Fixas') catBadge = 'bg-rose-950 text-amber-200 border-rose-900';
 
-        // Monta título e subtítulo dinâmicos conforme a categoria
         let tituloPrincipal = item.favorecido || item.subcategoria || 'Lançamento';
         let subInfo = [];
 
@@ -950,7 +1005,6 @@
 
         if (item.forma) subInfo.push(item.forma);
 
-        // Datas
         let datasHtml = `<div class="text-stone-600">Data: ${formatDate(item.emissao)}</div>`;
         if (item.vencimento) {
           datasHtml = `
@@ -959,7 +1013,6 @@
           `;
         }
 
-        // Status
         let statusHtml = `<span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-rose-100 text-rose-900 border border-rose-300">Pendente</span>`;
         if (sit === 'PAGO') {
           statusHtml = `<span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-300">Pago!</span>`;
@@ -970,7 +1023,7 @@
         }
 
         const anexoBtn = item.fileData
-          ? `<button onclick="openPreviewModal('${item.fileName || 'Documento'}', '${item.fileData}')" class="px-2.5 py-1 rounded-lg bg-rose-100 hover:bg-rose-200 text-rose-950 font-bold text-[11px] inline-flex items-center gap-1" title="Visualizar Nota / PDF"><i data-lucide="file-text" class="w-3.5 h-3.5"></i> Ver</button>`
+          ? `<button onclick="openPreviewModal('${item.fileName || 'Documento'}', '${item.fileData}')" class="px-2.5 py-1 rounded-lg bg-rose-100 hover:bg-rose-200 text-rose-950 font-bold text-[11px] inline-flex items-center gap-1" title="Visualizar Foto / PDF"><i data-lucide="file-text" class="w-3.5 h-3.5"></i> Ver</button>`
           : `<span class="text-[10px] text-stone-400">—</span>`;
 
         const quickPayBtn = item.status !== 'Pago'
@@ -998,7 +1051,6 @@
       lucide.createIcons();
     };
 
-    // ABRIR / FECHAR FORMULÁRIO
     window.openForm = (categoria) => {
       document.getElementById('form-section').classList.remove('hidden');
       document.getElementById('inp-categoria').value = categoria;
@@ -1015,23 +1067,25 @@
       window.removeFile();
     };
 
-    // UPLOAD DE ANEXO ÚNICO
-    window.handleFileSelect = (e) => {
+    window.handleFileSelect = async (e) => {
       const file = e.target.files[0];
       if (!file) return;
-      if (file.size > 900 * 1024) {
-        showToast('Para armazenamento rápido no Firebase, anexe arquivos de até 900 KB.', 'warning');
-        e.target.value = '';
-        return;
-      }
-      const reader = new FileReader();
-      reader.onload = (evt) => {
-        singleFile = { name: file.name, data: evt.target.result };
+
+      try {
+        const processed = await processAttachmentFile(file, singleFile);
+        if (!processed.data) {
+          e.target.value = '';
+          return;
+        }
+        singleFile = processed;
         document.getElementById('upload-placeholder').classList.add('hidden');
         document.getElementById('upload-preview').classList.remove('hidden');
-        document.getElementById('file-name').textContent = file.name;
-      };
-      reader.readAsDataURL(file);
+        document.getElementById('file-name').textContent = singleFile.name;
+        showToast(file.type.startsWith('image/') ? 'Foto comprimida e pronta!' : 'Arquivo anexado!', 'success');
+      } catch (err) {
+        showToast('Erro ao processar arquivo.', 'warning');
+        e.target.value = '';
+      }
     };
 
     window.removeFile = (e) => {
@@ -1047,7 +1101,6 @@
       if (singleFile.data) window.openPreviewModal(singleFile.name, singleFile.data);
     };
 
-    // SALVAR NO FIRESTORE CONFORME CATEGORIA
     document.getElementById('expense-form').onsubmit = async (e) => {
       e.preventDefault();
       const categoria = document.getElementById('inp-categoria').value;
@@ -1084,7 +1137,6 @@
         payload.tipoGasto = document.getElementById('inp-tipo-frete').value;
         payload.vencimento = null;
       } else {
-        // Contas a Pagar & Fixas
         payload.favorecido = document.getElementById('inp-favorecido').value.trim();
         payload.numero = document.getElementById('inp-numero').value.trim();
         payload.vencimento = document.getElementById('inp-vencimento').value;
@@ -1116,7 +1168,6 @@
       }
     };
 
-    // MODAL DE EDIÇÃO ADAPTADO
     window.openEditModal = (id) => {
       const item = despesasList.find(x => x.id === id);
       if (!item) return;
@@ -1175,18 +1226,7 @@
       const categoria = document.getElementById('edit-categoria').value;
       const fileEl = document.getElementById('edit-file');
 
-      const readNewFile = () => new Promise(res => {
-        if (!fileEl.files[0]) return res(editSingleFile);
-        if (fileEl.files[0].size > 900 * 1024) {
-          showToast('O novo arquivo excede 900 KB e não foi alterado.', 'warning');
-          return res(editSingleFile);
-        }
-        const r = new FileReader();
-        r.onload = ev => res({ name: fileEl.files[0].name, data: ev.target.result });
-        r.readAsDataURL(fileEl.files[0]);
-      });
-
-      const finalFile = await readNewFile();
+      const finalFile = await processAttachmentFile(fileEl.files[0], editSingleFile);
       const favVal = document.getElementById('edit-favorecido').value.trim();
       const detVal = document.getElementById('edit-detalhe').value.trim();
 
@@ -1216,7 +1256,6 @@
       window.closeEditModal();
     };
 
-    // PREVIEW NATIVO DE PDF E IMAGEM
     window.openPreviewModal = (name, dataUrl) => {
       document.getElementById('preview-title').textContent = name;
       const dl = document.getElementById('preview-download-btn');
@@ -1230,7 +1269,6 @@
     };
     window.closePreviewModal = () => document.getElementById('preview-modal').classList.add('hidden');
 
-    // EXPORTAÇÃO EXCEL
     window.exportToExcel = () => {
       if (!despesasList.length) return showToast('Nenhum registro para exportar.', 'warning');
       const rows = despesasList.map(i => ({
@@ -1251,7 +1289,6 @@
       showToast('Planilha Excel exportada!', 'success');
     };
 
-    // HELPERS
     window.maskCurrencyInput = (input) => {
       let v = input.value.replace(/\D/g, "");
       if (!v) { input.value = ""; return; }
