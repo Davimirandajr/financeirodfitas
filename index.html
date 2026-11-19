@@ -223,7 +223,7 @@
           <div>
             <span class="text-[10px] font-extrabold uppercase tracking-wider text-amber-800">+ Novo Lançamento</span>
             <h3 class="text-sm font-black text-rose-950">Salários & Folha</h3>
-            <p class="text-[11px] text-stone-500">Holerites, encargos, pró-labore</p>
+            <p class="text-[11px] text-stone-500">Colaborador, vencimento, comprovante</p>
           </div>
         </button>
 
@@ -234,7 +234,7 @@
           <div>
             <span class="text-[10px] font-extrabold uppercase tracking-wider text-rose-800">+ Novo Lançamento</span>
             <h3 class="text-sm font-black text-rose-950">Despesas Operacionais</h3>
-            <p class="text-[11px] text-stone-500">Manutenção, insumos, serviços</p>
+            <p class="text-[11px] text-stone-500">Limpeza, insumos da loja e itens</p>
           </div>
         </button>
 
@@ -245,7 +245,7 @@
           <div>
             <span class="text-[10px] font-extrabold uppercase tracking-wider text-orange-800">+ Novo Lançamento</span>
             <h3 class="text-sm font-black text-rose-950">Fretes & Logística</h3>
-            <p class="text-[11px] text-stone-500">Transportadoras, entregas, combustível</p>
+            <p class="text-[11px] text-stone-500">Transporte, entrega, combustível</p>
           </div>
         </button>
 
@@ -256,19 +256,21 @@
           <div>
             <span class="text-[10px] font-extrabold uppercase tracking-wider text-rose-800">+ Novo Lançamento</span>
             <h3 class="text-sm font-black text-rose-950">Contas a Pagar & Fixas</h3>
-            <p class="text-[11px] text-stone-500">Boletos, aluguel, água, luz, impostos</p>
+            <p class="text-[11px] text-stone-500">Fornecedor, NF, vencimento e alerta</p>
           </div>
         </button>
       </section>
 
-      <!-- FORMULÁRIO DE CADASTRO (ANEXO ÚNICO) -->
+      <!-- =====================================================================
+           FORMULÁRIO DINÂMICO POR CATEGORIA
+           ===================================================================== -->
       <section id="form-section" class="glass-card rounded-2xl p-6 sm:p-8 hidden border border-rose-900/25">
         <div class="flex items-center justify-between border-b border-rose-900/15 pb-4 mb-6">
           <div class="flex items-center space-x-3">
             <div class="p-2.5 rounded-xl bg-rose-100 text-rose-900 border border-rose-300"><i data-lucide="file-plus-2" class="w-5 h-5"></i></div>
             <div>
-              <h2 id="form-title" class="text-lg font-black text-rose-950">Registrar Pagamento / Nota Fiscal</h2>
-              <p class="text-xs text-stone-500">Preencha os dados e anexe a Nota Fiscal ou Comprovante em PDF/Imagem</p>
+              <h2 id="form-title" class="text-lg font-black text-rose-950">Registrar Lançamento</h2>
+              <p id="form-subtitle" class="text-xs text-stone-500">Preencha os campos específicos da categoria selecionada</p>
             </div>
           </div>
           <button type="button" onclick="closeForm()" class="px-3.5 py-1.5 rounded-xl bg-white hover:bg-rose-50 text-rose-950 text-xs font-bold border border-rose-900/20">
@@ -279,9 +281,10 @@
         <form id="expense-form" class="space-y-5">
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 
+            <!-- 1. CATEGORIA PRINCIPAL -->
             <div>
               <label class="block text-xs font-bold text-rose-950 uppercase mb-1.5">Categoria Principal <span class="text-rose-700">*</span></label>
-              <select id="inp-categoria" required class="w-full bg-white border border-rose-900/20 rounded-xl px-3.5 py-2.5 text-sm font-bold text-stone-900 focus:outline-none focus:border-rose-800">
+              <select id="inp-categoria" onchange="adaptFormFields(this.value)" required class="w-full bg-white border border-rose-900/20 rounded-xl px-3.5 py-2.5 text-sm font-bold text-stone-900 focus:outline-none focus:border-rose-800">
                 <option value="Salários & Folha">Salários & Folha</option>
                 <option value="Despesas Operacionais & Administrativas">Despesas Operacionais & Administrativas</option>
                 <option value="Fretes & Logística">Fretes & Logística</option>
@@ -289,51 +292,98 @@
               </select>
             </div>
 
-            <div>
-              <label class="block text-xs font-bold text-rose-950 uppercase mb-1.5">Fornecedor / Colaborador / Favorecido <span class="text-rose-700">*</span></label>
-              <input type="text" id="inp-favorecido" required placeholder="Nome da empresa, transportadora ou funcionário" class="w-full bg-white border border-rose-900/20 rounded-xl px-3.5 py-2.5 text-sm text-stone-900 focus:outline-none focus:border-rose-800">
+            <!-- 2A. CAMPO FAVORECIDO / COLABORADOR / PESSOA (Salários, Fretes, Contas a Pagar) -->
+            <div id="wrap-favorecido">
+              <label id="lbl-favorecido" class="block text-xs font-bold text-rose-950 uppercase mb-1.5">Nome do Colaborador <span class="text-rose-700">*</span></label>
+              <input type="text" id="inp-favorecido" placeholder="Digite o nome..." class="w-full bg-white border border-rose-900/20 rounded-xl px-3.5 py-2.5 text-sm text-stone-900 focus:outline-none focus:border-rose-800">
             </div>
 
-            <div>
+            <!-- 2B. SUBCATEGORIA DE DESPESA OPERACIONAL (Exclusivo Despesas Operacionais) -->
+            <div id="wrap-subcategoria-op" class="hidden">
+              <label class="block text-xs font-bold text-rose-950 uppercase mb-1.5">Tipo de Despesa Operacional <span class="text-rose-700">*</span></label>
+              <select id="inp-subcategoria-op" class="w-full bg-white border border-rose-900/20 rounded-xl px-3.5 py-2.5 text-sm font-bold text-stone-900 focus:outline-none focus:border-rose-800">
+                <option value="Limpeza e Higiene">Limpeza e Higiene</option>
+                <option value="Insumos para Loja">Insumos para Loja (Embalagens, Etiquetas, etc.)</option>
+                <option value="Material de Escritório / Papelaria">Material de Escritório / Papelaria</option>
+                <option value="Copa / Cozinha / Café">Copa / Cozinha / Café</option>
+                <option value="Manutenção e Reparos">Manutenção e Reparos</option>
+                <option value="Outros Gastos Operacionais">Outros Gastos Operacionais</option>
+              </select>
+            </div>
+
+            <!-- 3A. NÚMERO DA NOTA FISCAL (Exclusivo Contas a Pagar) -->
+            <div id="wrap-numero-nf" class="hidden">
               <label class="block text-xs font-bold text-rose-950 uppercase mb-1.5">Nº da Nota Fiscal / Documento</label>
-              <input type="text" id="inp-numero" placeholder="Ex: NF-00451 ou Holerite 11/2026" class="w-full bg-white border border-rose-900/20 rounded-xl px-3.5 py-2.5 text-sm text-stone-900 focus:outline-none focus:border-rose-800">
+              <input type="text" id="inp-numero" placeholder="Ex: NF-00451 ou Boleto 123" class="w-full bg-white border border-rose-900/20 rounded-xl px-3.5 py-2.5 text-sm text-stone-900 focus:outline-none focus:border-rose-800">
             </div>
 
+            <!-- 3B. TIPO DE GASTO FRETE (Exclusivo Fretes & Logística) -->
+            <div id="wrap-tipo-frete" class="hidden">
+              <label class="block text-xs font-bold text-rose-950 uppercase mb-1.5">Qual foi o Gasto? <span class="text-rose-700">*</span></label>
+              <select id="inp-tipo-frete" class="w-full bg-white border border-rose-900/20 rounded-xl px-3.5 py-2.5 text-sm font-bold text-stone-900 focus:outline-none focus:border-rose-800">
+                <option value="Transporte">Transporte</option>
+                <option value="Entrega">Entrega</option>
+                <option value="Combustível">Combustível</option>
+                <option value="Frete de Mercadoria">Frete de Mercadoria</option>
+                <option value="Pedágio / Estacionamento">Pedágio / Estacionamento</option>
+              </select>
+            </div>
+
+            <!-- 3C. LISTA DINÂMICA DE ITENS (Exclusivo Despesas Operacionais) -->
+            <div id="wrap-itens-op" class="hidden md:col-span-2 lg:col-span-3 bg-rose-50/70 p-4 rounded-xl border border-rose-900/15 space-y-2.5">
+              <div class="flex items-center justify-between">
+                <label class="block text-xs font-bold text-rose-950 uppercase">Item / Itens Comprados <span class="text-rose-700">*</span></label>
+                <button type="button" onclick="addOpItemRow()" class="px-3 py-1.5 rounded-lg bg-rose-900 hover:bg-rose-800 text-white text-xs font-bold flex items-center gap-1 shadow-sm">
+                  <i data-lucide="plus" class="w-3.5 h-3.5 text-amber-300"></i>
+                  <span>Adicionar Item</span>
+                </button>
+              </div>
+              <div id="op-items-list" class="space-y-2">
+                <!-- Linhas de itens adicionadas dinamicamente -->
+              </div>
+            </div>
+
+            <!-- 4. VALOR -->
             <div>
-              <label class="block text-xs font-bold text-rose-950 uppercase mb-1.5">Valor (R$) <span class="text-rose-700">*</span></label>
+              <label class="block text-xs font-bold text-rose-950 uppercase mb-1.5">Valor Total (R$) <span class="text-rose-700">*</span></label>
               <input type="text" id="inp-valor" required placeholder="R$ 0,00" oninput="maskCurrencyInput(this)" class="w-full bg-white border border-rose-900/20 rounded-xl px-3.5 py-2.5 text-sm text-rose-900 font-mono font-black focus:outline-none focus:border-rose-800">
             </div>
 
+            <!-- 5. DATA DE EMISSÃO / DATA DO GASTO -->
             <div>
-              <label class="block text-xs font-bold text-rose-950 uppercase mb-1.5">Data de Emissão <span class="text-rose-700">*</span></label>
+              <label id="lbl-emissao" class="block text-xs font-bold text-rose-950 uppercase mb-1.5">Data de Emissão <span class="text-rose-700">*</span></label>
               <input type="date" id="inp-emissao" required class="w-full bg-white border border-rose-900/20 rounded-xl px-3.5 py-2.5 text-sm text-stone-900 focus:outline-none focus:border-rose-800">
             </div>
 
-            <div>
+            <!-- 6. DATA DE VENCIMENTO (Somente Salários & Contas a Pagar) -->
+            <div id="wrap-vencimento">
               <label class="block text-xs font-bold text-rose-950 uppercase mb-1.5">Data de Vencimento (Alerta) <span class="text-rose-700">*</span></label>
-              <input type="date" id="inp-vencimento" required class="w-full bg-white border border-rose-900/20 rounded-xl px-3.5 py-2.5 text-sm text-stone-900 focus:outline-none focus:border-rose-800">
+              <input type="date" id="inp-vencimento" class="w-full bg-white border border-rose-900/20 rounded-xl px-3.5 py-2.5 text-sm text-stone-900 focus:outline-none focus:border-rose-800">
             </div>
 
+            <!-- 7. FORMA DE PAGAMENTO -->
             <div>
               <label class="block text-xs font-bold text-rose-950 uppercase mb-1.5">Forma de Pagamento</label>
               <select id="inp-forma" class="w-full bg-white border border-rose-900/20 rounded-xl px-3.5 py-2.5 text-sm text-stone-900 focus:outline-none focus:border-rose-800">
                 <option value="PIX / Transferência">PIX / Transferência</option>
                 <option value="Boleto Bancário">Boleto Bancário</option>
-                <option value="Débito Automático">Débito Automático</option>
-                <option value="Cartão Corporativo">Cartão Corporativo</option>
+                <option value="Cartão de Débito">Cartão de Débito</option>
+                <option value="Cartão de Crédito">Cartão de Crédito</option>
                 <option value="Dinheiro">Dinheiro</option>
+                <option value="Débito Automático">Débito Automático</option>
               </select>
             </div>
 
+            <!-- 8. STATUS DO PAGAMENTO -->
             <div>
               <label class="block text-xs font-bold text-rose-950 uppercase mb-1.5">Status do Pagamento <span class="text-rose-700">*</span></label>
               <select id="inp-status" class="w-full bg-white border border-rose-900/20 rounded-xl px-3.5 py-2.5 text-sm font-bold text-stone-900 focus:outline-none focus:border-rose-800">
-                <option value="Pendente" selected>Pendente (Ativar Alertas)</option>
+                <option value="Pendente">Pendente (Ativar Alertas)</option>
                 <option value="Pago">Pago / Liquidado</option>
               </select>
             </div>
 
-            <!-- ANEXO ÚNICO (NOTA FISCAL OU PDF) -->
+            <!-- 9. ANEXO ÚNICO -->
             <div>
               <label class="block text-xs font-bold text-rose-950 uppercase mb-1.5">Anexo Único (NF-e / PDF / Comprovante)</label>
               <div id="drop-zone" onclick="document.getElementById('file-input').click()" class="border-2 border-dashed border-rose-900/25 hover:border-rose-700 rounded-xl px-3 py-2 text-center cursor-pointer bg-white transition-all h-[42px] flex items-center justify-center">
@@ -354,9 +404,10 @@
               </div>
             </div>
 
+            <!-- 10. OBSERVAÇÕES -->
             <div class="md:col-span-2 lg:col-span-3">
               <label class="block text-xs font-bold text-rose-950 uppercase mb-1.5">Observações / Detalhes</label>
-              <input type="text" id="inp-obs" placeholder="Ex: Referente ao frete de mercadorias, parcela 2/3, etc." class="w-full bg-white border border-rose-900/20 rounded-xl px-3.5 py-2.5 text-sm text-stone-900 focus:outline-none focus:border-rose-800">
+              <input type="text" id="inp-obs" placeholder="Detalhes adicionais sobre este lançamento..." class="w-full bg-white border border-rose-900/20 rounded-xl px-3.5 py-2.5 text-sm text-stone-900 focus:outline-none focus:border-rose-800">
             </div>
           </div>
 
@@ -364,7 +415,7 @@
             <button type="button" onclick="closeForm()" class="px-5 py-2.5 rounded-xl border border-rose-900/20 hover:bg-rose-50 text-rose-950 text-xs font-bold">Cancelar</button>
             <button type="submit" id="btn-submit" class="btn-dfitas-primary px-7 py-2.5 rounded-xl font-bold text-xs text-white flex items-center space-x-2">
               <i data-lucide="save" class="w-4 h-4 text-amber-300"></i>
-              <span>Salvar Despesa</span>
+              <span>Salvar Lançamento</span>
             </button>
           </div>
         </form>
@@ -397,7 +448,7 @@
         <!-- BARRA DE BUSCA E STATUS -->
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-rose-50/70 p-3.5 rounded-xl border border-rose-900/15">
           <div>
-            <input type="text" id="filter-search" oninput="renderTable()" placeholder="Buscar por fornecedor, funcionário ou nº NF..." class="w-full bg-white border border-rose-900/20 rounded-lg px-3 py-2 text-xs text-stone-900 focus:outline-none">
+            <input type="text" id="filter-search" oninput="renderTable()" placeholder="Buscar por nome, item, tipo de gasto ou nº NF..." class="w-full bg-white border border-rose-900/20 rounded-lg px-3 py-2 text-xs text-stone-900 focus:outline-none">
           </div>
           <div>
             <select id="filter-status" onchange="renderTable()" class="w-full bg-white border border-rose-900/20 rounded-lg px-3 py-2 text-xs font-bold text-rose-950 focus:outline-none">
@@ -423,8 +474,8 @@
             <thead class="bg-rose-950 text-amber-50 font-bold uppercase">
               <tr>
                 <th class="py-3.5 px-4">Categoria</th>
-                <th class="py-3.5 px-4">Favorecido / Nº NF</th>
-                <th class="py-3.5 px-4">Emissão / Vencimento</th>
+                <th class="py-3.5 px-4">Descrição / Favorecido / Itens</th>
+                <th class="py-3.5 px-4">Datas</th>
                 <th class="py-3.5 px-4">Valor</th>
                 <th class="py-3.5 px-4 text-center">Situação / Alerta</th>
                 <th class="py-3.5 px-4 text-center">NF / PDF</th>
@@ -463,7 +514,7 @@
   <div id="edit-modal" class="fixed inset-0 z-50 hidden bg-rose-950/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
     <div class="glass-card rounded-2xl p-6 sm:p-8 max-w-xl w-full border border-rose-900/25 shadow-2xl bg-white">
       <div class="flex items-center justify-between border-b border-rose-900/15 pb-4 mb-5">
-        <h3 class="text-lg font-black text-rose-950">Editar Despesa / Atualizar Status</h3>
+        <h3 class="text-lg font-black text-rose-950">Editar Lançamento / Atualizar Status</h3>
         <button onclick="closeEditModal()" class="text-stone-500 hover:text-rose-950 p-1.5 rounded-lg bg-rose-50"><i data-lucide="x" class="w-5 h-5"></i></button>
       </div>
 
@@ -472,12 +523,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label class="block text-xs font-bold text-rose-950 uppercase mb-1">Categoria</label>
-            <select id="edit-categoria" class="w-full bg-white border border-rose-900/20 rounded-xl px-3 py-2 text-xs font-bold">
-              <option value="Salários & Folha">Salários & Folha</option>
-              <option value="Despesas Operacionais & Administrativas">Despesas Operacionais & Administrativas</option>
-              <option value="Fretes & Logística">Fretes & Logística</option>
-              <option value="Contas a Pagar & Fixas">Contas a Pagar & Fixas</option>
-            </select>
+            <input type="text" id="edit-categoria" readonly class="w-full bg-rose-50/60 border border-rose-900/20 rounded-xl px-3 py-2 text-xs font-bold text-rose-950">
           </div>
           <div>
             <label class="block text-xs font-bold text-rose-950 uppercase mb-1">Status</label>
@@ -487,20 +533,20 @@
             </select>
           </div>
           <div>
-            <label class="block text-xs font-bold text-rose-950 uppercase mb-1">Favorecido</label>
+            <label id="edit-lbl-favorecido" class="block text-xs font-bold text-rose-950 uppercase mb-1">Favorecido / Tipo</label>
             <input type="text" id="edit-favorecido" required class="w-full bg-white border border-rose-900/20 rounded-xl px-3 py-2 text-xs">
           </div>
-          <div>
-            <label class="block text-xs font-bold text-rose-950 uppercase mb-1">Nº Nota / Doc</label>
-            <input type="text" id="edit-numero" class="w-full bg-white border border-rose-900/20 rounded-xl px-3 py-2 text-xs">
+          <div id="edit-wrap-detalhe">
+            <label id="edit-lbl-detalhe" class="block text-xs font-bold text-rose-950 uppercase mb-1">Nº Nota / Itens / Gasto</label>
+            <input type="text" id="edit-detalhe" class="w-full bg-white border border-rose-900/20 rounded-xl px-3 py-2 text-xs">
           </div>
           <div>
             <label class="block text-xs font-bold text-rose-950 uppercase mb-1">Valor (R$)</label>
             <input type="text" id="edit-valor" required oninput="maskCurrencyInput(this)" class="w-full bg-white border border-rose-900/20 rounded-xl px-3 py-2 text-xs font-mono font-bold">
           </div>
-          <div>
+          <div id="edit-wrap-vencimento">
             <label class="block text-xs font-bold text-rose-950 uppercase mb-1">Vencimento</label>
-            <input type="date" id="edit-vencimento" required class="w-full bg-white border border-rose-900/20 rounded-xl px-3 py-2 text-xs">
+            <input type="date" id="edit-vencimento" class="w-full bg-white border border-rose-900/20 rounded-xl px-3 py-2 text-xs">
           </div>
           <div class="sm:col-span-2">
             <label class="block text-xs font-bold text-rose-950 uppercase mb-1">Substituir Anexo Único (Opcional)</label>
@@ -592,6 +638,111 @@
       }
     };
 
+    // =========================================================================
+    // ADAPTAÇÃO DINÂMICA DOS CAMPOS DO FORMULÁRIO POR CATEGORIA
+    // =========================================================================
+    window.adaptFormFields = (categoria) => {
+      document.getElementById('form-title').textContent = `Novo Lançamento — ${categoria}`;
+
+      const wrapFavorecido = document.getElementById('wrap-favorecido');
+      const lblFavorecido = document.getElementById('lbl-favorecido');
+      const inpFavorecido = document.getElementById('inp-favorecido');
+
+      const wrapSubOp = document.getElementById('wrap-subcategoria-op');
+      const wrapNumeroNf = document.getElementById('wrap-numero-nf');
+      const wrapTipoFrete = document.getElementById('wrap-tipo-frete');
+      const wrapItensOp = document.getElementById('wrap-itens-op');
+
+      const lblEmissao = document.getElementById('lbl-emissao');
+      const wrapVencimento = document.getElementById('wrap-vencimento');
+      const inpVencimento = document.getElementById('inp-vencimento');
+      const inpStatus = document.getElementById('inp-status');
+
+      // Reseta visibilidades
+      wrapFavorecido.classList.add('hidden');
+      inpFavorecido.required = false;
+      wrapSubOp.classList.add('hidden');
+      wrapNumeroNf.classList.add('hidden');
+      wrapTipoFrete.classList.add('hidden');
+      wrapItensOp.classList.add('hidden');
+      wrapVencimento.classList.add('hidden');
+      inpVencimento.required = false;
+
+      if (categoria === 'Salários & Folha') {
+        wrapFavorecido.classList.remove('hidden');
+        lblFavorecido.innerHTML = 'Nome do Colaborador <span class="text-rose-700">*</span>';
+        inpFavorecido.placeholder = 'Ex: Maria Silva (Vendedora)';
+        inpFavorecido.required = true;
+
+        lblEmissao.innerHTML = 'Data de Emissão <span class="text-rose-700">*</span>';
+        wrapVencimento.classList.remove('hidden');
+        inpVencimento.required = true;
+        inpStatus.value = 'Pendente';
+
+      } else if (categoria === 'Despesas Operacionais & Administrativas') {
+        wrapSubOp.classList.remove('hidden');
+        wrapItensOp.classList.remove('hidden');
+
+        const list = document.getElementById('op-items-list');
+        if (list.children.length === 0) window.addOpItemRow();
+
+        lblEmissao.innerHTML = 'Data da Compra / Gasto <span class="text-rose-700">*</span>';
+        inpVencimento.value = '';
+        inpStatus.value = 'Pago';
+
+      } else if (categoria === 'Fretes & Logística') {
+        wrapFavorecido.classList.remove('hidden');
+        lblFavorecido.innerHTML = 'Nome da Pessoa / Motorista <span class="text-rose-700">*</span>';
+        inpFavorecido.placeholder = 'Ex: João Motoboy, Posto Shell, Transportadora...';
+        inpFavorecido.required = true;
+
+        wrapTipoFrete.classList.remove('hidden');
+        lblEmissao.innerHTML = 'Data que foi feito <span class="text-rose-700">*</span>';
+        inpVencimento.value = '';
+        inpStatus.value = 'Pago';
+
+      } else {
+        // Contas a Pagar & Fixas
+        wrapFavorecido.classList.remove('hidden');
+        lblFavorecido.innerHTML = 'Fornecedor / Empresa <span class="text-rose-700">*</span>';
+        inpFavorecido.placeholder = 'Ex: Equatorial Energia, Fornecedor de Fitas...';
+        inpFavorecido.required = true;
+
+        wrapNumeroNf.classList.remove('hidden');
+        lblEmissao.innerHTML = 'Data de Emissão <span class="text-rose-700">*</span>';
+        wrapVencimento.classList.remove('hidden');
+        inpVencimento.required = true;
+        inpStatus.value = 'Pendente';
+      }
+
+      lucide.createIcons();
+    };
+
+    // ADICIONAR / REMOVER ITENS EM DESPESAS OPERACIONAIS
+    window.addOpItemRow = (valorInicial = '') => {
+      const container = document.getElementById('op-items-list');
+      const row = document.createElement('div');
+      row.className = 'flex items-center gap-2 op-item-row';
+      row.innerHTML = `
+        <input type="text" value="${valorInicial}" placeholder="Ex: 2 Detergentes, 1 Pacote de Sacolas, Bobina..." class="op-item-input flex-grow bg-white border border-rose-900/20 rounded-xl px-3.5 py-2 text-sm text-stone-900 focus:outline-none focus:border-rose-800">
+        <button type="button" onclick="removeOpItemRow(this)" class="p-2 rounded-xl bg-rose-100 hover:bg-rose-200 text-rose-800 shrink-0" title="Remover item">
+          <i data-lucide="trash-2" class="w-4 h-4"></i>
+        </button>
+      `;
+      container.appendChild(row);
+      lucide.createIcons();
+    };
+
+    window.removeOpItemRow = (btn) => {
+      const container = document.getElementById('op-items-list');
+      if (container.children.length > 1) {
+        btn.closest('.op-item-row').remove();
+      } else {
+        btn.closest('.op-item-row').querySelector('input').value = '';
+      }
+    };
+
+    // LÓGICA DE VENCIMENTO E ALERTAS (Só alerta categorias com vencimento)
     function getVencimentoStatus(item) {
       if (item.status === 'Pago') return 'PAGO';
       if (!item.vencimento) return 'NO_PRAZO';
@@ -611,7 +762,7 @@
       onSnapshot(collection(db, COLLECTION_NAME), (snap) => {
         despesasList = [];
         snap.forEach(d => despesasList.push({ id: d.id, ...d.data() }));
-        despesasList.sort((a, b) => (a.vencimento || '9999').localeCompare(b.vencimento || '9999'));
+        despesasList.sort((a, b) => (b.emissao || '').localeCompare(a.emissao || ''));
         populateMonths();
         window.renderAll();
       });
@@ -743,7 +894,12 @@
         if (mesFiltro !== 'ALL' && ym !== mesFiltro) return false;
         if (selectedCategoryTab !== 'ALL' && item.categoria !== selectedCategoryTab) return false;
 
-        const matchTxt = (item.favorecido || '').toLowerCase().includes(search) || (item.numero || '').toLowerCase().includes(search);
+        const itensStr = Array.isArray(item.itens) ? item.itens.join(' ') : (item.itens || '');
+        const matchTxt = (item.favorecido || '').toLowerCase().includes(search) ||
+                         (item.numero || '').toLowerCase().includes(search) ||
+                         (item.subcategoria || '').toLowerCase().includes(search) ||
+                         (item.tipoGasto || '').toLowerCase().includes(search) ||
+                         itensStr.toLowerCase().includes(search);
         if (!matchTxt) return false;
 
         const sit = getVencimentoStatus(item);
@@ -775,7 +931,36 @@
         if (item.categoria === 'Despesas Operacionais & Administrativas') catBadge = 'bg-rose-100 text-rose-900 border-rose-300';
         if (item.categoria === 'Contas a Pagar & Fixas') catBadge = 'bg-rose-950 text-amber-200 border-rose-900';
 
-        let statusHtml = `<span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-rose-100 text-rose-900 border border-rose-300">No Prazo</span>`;
+        // Monta título e subtítulo dinâmicos conforme a categoria
+        let tituloPrincipal = item.favorecido || item.subcategoria || 'Lançamento';
+        let subInfo = [];
+
+        if (item.categoria === 'Despesas Operacionais & Administrativas') {
+          tituloPrincipal = item.subcategoria || item.favorecido || 'Despesa Operacional';
+          if (Array.isArray(item.itens) && item.itens.length > 0) {
+            subInfo.push(`Itens: ${item.itens.join(', ')}`);
+          } else if (item.itens) {
+            subInfo.push(`Itens: ${item.itens}`);
+          }
+        } else if (item.categoria === 'Fretes & Logística') {
+          if (item.tipoGasto) subInfo.push(`Gasto: ${item.tipoGasto}`);
+        } else if (item.categoria === 'Contas a Pagar & Fixas') {
+          if (item.numero) subInfo.push(`NF/Doc: ${item.numero}`);
+        }
+
+        if (item.forma) subInfo.push(item.forma);
+
+        // Datas
+        let datasHtml = `<div class="text-stone-600">Data: ${formatDate(item.emissao)}</div>`;
+        if (item.vencimento) {
+          datasHtml = `
+            <div class="text-stone-500">Emissão: ${formatDate(item.emissao)}</div>
+            <div class="${sit === 'VENCIDO' ? 'text-red-700 font-black' : 'text-stone-900 font-bold'}">Venc.: ${formatDate(item.vencimento)}</div>
+          `;
+        }
+
+        // Status
+        let statusHtml = `<span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-rose-100 text-rose-900 border border-rose-300">Pendente</span>`;
         if (sit === 'PAGO') {
           statusHtml = `<span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-300">Pago!</span>`;
         } else if (sit === 'VENCIDO') {
@@ -795,13 +980,10 @@
         tr.innerHTML = `
           <td class="py-3.5 px-4"><span class="px-2.5 py-1 rounded-lg text-[10px] font-extrabold border ${catBadge}">${item.categoria}</span></td>
           <td class="py-3.5 px-4">
-            <div class="font-bold text-stone-900">${item.favorecido}</div>
-            <div class="text-[10px] text-stone-500 font-mono">${item.numero ? 'Doc: ' + item.numero : 'Sem nº doc'} ${item.forma ? '• ' + item.forma : ''}</div>
+            <div class="font-bold text-stone-900">${tituloPrincipal}</div>
+            <div class="text-[11px] text-stone-600 mt-0.5">${subInfo.join(' • ') || '—'}</div>
           </td>
-          <td class="py-3.5 px-4 font-mono text-[11px]">
-            <div class="text-stone-500">Emissão: ${formatDate(item.emissao)}</div>
-            <div class="${sit === 'VENCIDO' ? 'text-red-700 font-black' : 'text-stone-900 font-bold'}">Venc.: ${formatDate(item.vencimento)}</div>
-          </td>
+          <td class="py-3.5 px-4 font-mono text-[11px]">${datasHtml}</td>
           <td class="py-3.5 px-4 font-mono font-black text-rose-900 text-sm">${formatCurrency(item.valor)}</td>
           <td class="py-3.5 px-4 text-center">${statusHtml}</td>
           <td class="py-3.5 px-4 text-center">${anexoBtn}</td>
@@ -816,20 +998,24 @@
       lucide.createIcons();
     };
 
+    // ABRIR / FECHAR FORMULÁRIO
     window.openForm = (categoria) => {
       document.getElementById('form-section').classList.remove('hidden');
       document.getElementById('inp-categoria').value = categoria;
-      document.getElementById('form-title').textContent = `Novo Lançamento — ${categoria}`;
+      document.getElementById('op-items-list').innerHTML = '';
+      window.adaptFormFields(categoria);
       document.getElementById('form-section').scrollIntoView({ behavior: 'smooth' });
     };
 
     window.closeForm = () => {
       document.getElementById('form-section').classList.add('hidden');
       document.getElementById('expense-form').reset();
+      document.getElementById('op-items-list').innerHTML = '';
       document.getElementById('inp-emissao').valueAsDate = new Date();
       window.removeFile();
     };
 
+    // UPLOAD DE ANEXO ÚNICO
     window.handleFileSelect = (e) => {
       const file = e.target.files[0];
       if (!file) return;
@@ -861,30 +1047,55 @@
       if (singleFile.data) window.openPreviewModal(singleFile.name, singleFile.data);
     };
 
+    // SALVAR NO FIRESTORE CONFORME CATEGORIA
     document.getElementById('expense-form').onsubmit = async (e) => {
       e.preventDefault();
+      const categoria = document.getElementById('inp-categoria').value;
       const valor = parseCurrency(document.getElementById('inp-valor').value);
       if (valor <= 0) return showToast('Informe um valor válido.', 'warning');
+
+      let payload = {
+        categoria,
+        valor,
+        emissao: document.getElementById('inp-emissao').value,
+        forma: document.getElementById('inp-forma').value,
+        status: document.getElementById('inp-status').value,
+        observacoes: document.getElementById('inp-obs').value.trim(),
+        fileName: singleFile.name,
+        fileData: singleFile.data,
+        criadoEm: serverTimestamp()
+      };
+
+      if (categoria === 'Salários & Folha') {
+        payload.favorecido = document.getElementById('inp-favorecido').value.trim();
+        payload.vencimento = document.getElementById('inp-vencimento').value;
+      } else if (categoria === 'Despesas Operacionais & Administrativas') {
+        const sub = document.getElementById('inp-subcategoria-op').value;
+        const itens = Array.from(document.querySelectorAll('.op-item-input'))
+          .map(i => i.value.trim())
+          .filter(Boolean);
+        if (itens.length === 0) return showToast('Adicione pelo menos um item da despesa operacional.', 'warning');
+        payload.subcategoria = sub;
+        payload.favorecido = sub;
+        payload.itens = itens;
+        payload.vencimento = null;
+      } else if (categoria === 'Fretes & Logística') {
+        payload.favorecido = document.getElementById('inp-favorecido').value.trim();
+        payload.tipoGasto = document.getElementById('inp-tipo-frete').value;
+        payload.vencimento = null;
+      } else {
+        // Contas a Pagar & Fixas
+        payload.favorecido = document.getElementById('inp-favorecido').value.trim();
+        payload.numero = document.getElementById('inp-numero').value.trim();
+        payload.vencimento = document.getElementById('inp-vencimento').value;
+      }
 
       const btn = document.getElementById('btn-submit');
       btn.disabled = true;
 
       try {
-        await addDoc(collection(db, COLLECTION_NAME), {
-          categoria: document.getElementById('inp-categoria').value,
-          favorecido: document.getElementById('inp-favorecido').value.trim(),
-          numero: document.getElementById('inp-numero').value.trim(),
-          valor: valor,
-          emissao: document.getElementById('inp-emissao').value,
-          vencimento: document.getElementById('inp-vencimento').value,
-          forma: document.getElementById('inp-forma').value,
-          status: document.getElementById('inp-status').value,
-          observacoes: document.getElementById('inp-obs').value.trim(),
-          fileName: singleFile.name,
-          fileData: singleFile.data,
-          criadoEm: serverTimestamp()
-        });
-        showToast('Despesa salva no Firebase com sucesso!', 'success');
+        await addDoc(collection(db, COLLECTION_NAME), payload);
+        showToast('Lançamento salvo com sucesso!', 'success');
         window.closeForm();
       } catch (err) {
         showToast('Erro ao salvar: ' + err.message, 'warning');
@@ -905,17 +1116,52 @@
       }
     };
 
+    // MODAL DE EDIÇÃO ADAPTADO
     window.openEditModal = (id) => {
       const item = despesasList.find(x => x.id === id);
       if (!item) return;
+
       document.getElementById('edit-id').value = item.id;
       document.getElementById('edit-categoria').value = item.categoria;
       document.getElementById('edit-status').value = item.status;
-      document.getElementById('edit-favorecido').value = item.favorecido;
-      document.getElementById('edit-numero').value = item.numero || '';
       document.getElementById('edit-valor').value = formatCurrency(item.valor);
-      document.getElementById('edit-vencimento').value = item.vencimento || '';
       document.getElementById('edit-obs').value = item.observacoes || '';
+
+      const wrapDet = document.getElementById('edit-wrap-detalhe');
+      const wrapVenc = document.getElementById('edit-wrap-vencimento');
+      const lblFav = document.getElementById('edit-lbl-favorecido');
+      const lblDet = document.getElementById('edit-lbl-detalhe');
+
+      wrapDet.classList.add('hidden');
+      wrapVenc.classList.add('hidden');
+
+      if (item.categoria === 'Salários & Folha') {
+        lblFav.textContent = 'Nome do Colaborador';
+        document.getElementById('edit-favorecido').value = item.favorecido || '';
+        wrapVenc.classList.remove('hidden');
+        document.getElementById('edit-vencimento').value = item.vencimento || '';
+      } else if (item.categoria === 'Despesas Operacionais & Administrativas') {
+        lblFav.textContent = 'Tipo de Despesa Operacional';
+        document.getElementById('edit-favorecido').value = item.subcategoria || item.favorecido || '';
+        wrapDet.classList.remove('hidden');
+        lblDet.textContent = 'Itens (separados por vírgula)';
+        document.getElementById('edit-detalhe').value = Array.isArray(item.itens) ? item.itens.join(', ') : (item.itens || '');
+      } else if (item.categoria === 'Fretes & Logística') {
+        lblFav.textContent = 'Nome da Pessoa / Motorista';
+        document.getElementById('edit-favorecido').value = item.favorecido || '';
+        wrapDet.classList.remove('hidden');
+        lblDet.textContent = 'Tipo de Gasto (Transporte, Entrega, Combustível...)';
+        document.getElementById('edit-detalhe').value = item.tipoGasto || '';
+      } else {
+        lblFav.textContent = 'Fornecedor / Empresa';
+        document.getElementById('edit-favorecido').value = item.favorecido || '';
+        wrapDet.classList.remove('hidden');
+        lblDet.textContent = 'Nº Nota Fiscal / Documento';
+        document.getElementById('edit-detalhe').value = item.numero || '';
+        wrapVenc.classList.remove('hidden');
+        document.getElementById('edit-vencimento').value = item.vencimento || '';
+      }
+
       editSingleFile = { name: item.fileName || null, data: item.fileData || null };
       document.getElementById('edit-file').value = '';
       document.getElementById('edit-modal').classList.remove('hidden');
@@ -926,6 +1172,7 @@
     window.saveEdit = async (e) => {
       e.preventDefault();
       const id = document.getElementById('edit-id').value;
+      const categoria = document.getElementById('edit-categoria').value;
       const fileEl = document.getElementById('edit-file');
 
       const readNewFile = () => new Promise(res => {
@@ -940,23 +1187,36 @@
       });
 
       const finalFile = await readNewFile();
+      const favVal = document.getElementById('edit-favorecido').value.trim();
+      const detVal = document.getElementById('edit-detalhe').value.trim();
 
-      await updateDoc(doc(db, COLLECTION_NAME, id), {
-        categoria: document.getElementById('edit-categoria').value,
+      let updatePayload = {
         status: document.getElementById('edit-status').value,
-        favorecido: document.getElementById('edit-favorecido').value.trim(),
-        numero: document.getElementById('edit-numero').value.trim(),
+        favorecido: favVal,
         valor: parseCurrency(document.getElementById('edit-valor').value),
-        vencimento: document.getElementById('edit-vencimento').value,
         observacoes: document.getElementById('edit-obs').value.trim(),
         fileName: finalFile.name,
         fileData: finalFile.data
-      });
+      };
 
+      if (categoria === 'Salários & Folha') {
+        updatePayload.vencimento = document.getElementById('edit-vencimento').value;
+      } else if (categoria === 'Despesas Operacionais & Administrativas') {
+        updatePayload.subcategoria = favVal;
+        updatePayload.itens = detVal.split(',').map(s => s.trim()).filter(Boolean);
+      } else if (categoria === 'Fretes & Logística') {
+        updatePayload.tipoGasto = detVal;
+      } else {
+        updatePayload.numero = detVal;
+        updatePayload.vencimento = document.getElementById('edit-vencimento').value;
+      }
+
+      await updateDoc(doc(db, COLLECTION_NAME, id), updatePayload);
       showToast('Registro atualizado!', 'success');
       window.closeEditModal();
     };
 
+    // PREVIEW NATIVO DE PDF E IMAGEM
     window.openPreviewModal = (name, dataUrl) => {
       document.getElementById('preview-title').textContent = name;
       const dl = document.getElementById('preview-download-btn');
@@ -970,13 +1230,14 @@
     };
     window.closePreviewModal = () => document.getElementById('preview-modal').classList.add('hidden');
 
+    // EXPORTAÇÃO EXCEL
     window.exportToExcel = () => {
       if (!despesasList.length) return showToast('Nenhum registro para exportar.', 'warning');
       const rows = despesasList.map(i => ({
         Categoria: i.categoria,
-        Favorecido: i.favorecido,
-        Documento: i.numero || '',
-        Emissao: formatDate(i.emissao),
+        Favorecido_ou_Tipo: i.favorecido || i.subcategoria || '',
+        Detalhes_NF_Itens_Gasto: i.numero || i.tipoGasto || (Array.isArray(i.itens) ? i.itens.join(', ') : ''),
+        Data_Emissao: formatDate(i.emissao),
         Vencimento: formatDate(i.vencimento),
         Valor: Number(i.valor || 0),
         Forma_Pagamento: i.forma || '',
@@ -985,11 +1246,12 @@
       }));
       const ws = XLSX.utils.json_to_sheet(rows);
       const wb = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(wb, ws, 'Despesas');
+      XLSX.utils.book_append_sheet(wb, ws, 'Despesas_DFitas');
       XLSX.writeFile(wb, `DFitas_Relatorio_Despesas_${new Date().toISOString().slice(0, 10)}.xlsx`);
       showToast('Planilha Excel exportada!', 'success');
     };
 
+    // HELPERS
     window.maskCurrencyInput = (input) => {
       let v = input.value.replace(/\D/g, "");
       if (!v) { input.value = ""; return; }
