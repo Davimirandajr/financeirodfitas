@@ -1335,264 +1335,279 @@
     window.closePreviewModal = () => document.getElementById('preview-modal').classList.add('hidden');
 
     window.exportToExcel = () => {
-      if (!despesasList.length) return showToast('Nenhum registro para exportar.', 'warning');
+  if (!despesasList.length) return showToast('Nenhum registro para exportar.', 'warning');
 
-      const mesFiltro = document.getElementById('global-mes-filter').value;
-      const search = document.getElementById('filter-search').value.toLowerCase();
-      const statusFiltro = document.getElementById('filter-status').value;
+  const mesFiltro = document.getElementById('global-mes-filter').value;
+  const dadosFiltrados = despesasList.filter(i => {
+    const ym = (i.vencimento || i.emissao || '').slice(0, 7);
+    return mesFiltro === 'ALL' || ym === mesFiltro;
+  });
 
-      const dadosExport = despesasList.filter(item => {
-        const ym = (item.vencimento || item.emissao || '').slice(0, 7);
-        if (mesFiltro !== 'ALL' && ym !== mesFiltro) return false;
-        if (selectedCategoryTab !== 'ALL' && item.categoria !== selectedCategoryTab) return false;
+  if (!dadosFiltrados.length) return showToast('Nenhum registro no período selecionado.', 'warning');
 
-        const itensStr = Array.isArray(item.itens) ? item.itens.join(' ') : (item.itens || '');
-        const matchTxt = (item.favorecido || '').toLowerCase().includes(search) ||
-                         (item.numero || '').toLowerCase().includes(search) ||
-                         (item.subcategoria || '').toLowerCase().includes(search) ||
-                         (item.tipoGasto || '').toLowerCase().includes(search) ||
-                         itensStr.toLowerCase().includes(search);
-        if (!matchTxt) return false;
+  const wb = XLSX.utils.book_new();
+  const ws = {};
+  const merges = [];
 
-        const sit = getVencimentoStatus(item);
-        if (statusFiltro === 'ALERTA') return sit === 'VENCIDO' || sit === 'BREVE';
-        if (statusFiltro === 'VENCIDO') return sit === 'VENCIDO';
-        if (statusFiltro === 'BREVE') return sit === 'BREVE';
-        if (statusFiltro === 'Pendente') return item.status === 'Pendente';
-        if (statusFiltro === 'Pago') return item.status === 'Pago';
-        return true;
-      });
+  // Estilos D'Fitas
+  const borderThin = {
+    top: { style: 'thin', color: { rgb: 'E2E8F0' } },
+    bottom: { style: 'thin', color: { rgb: 'E2E8F0' } },
+    left: { style: 'thin', color: { rgb: 'E2E8F0' } },
+    right: { style: 'thin', color: { rgb: 'E2E8F0' } }
+  };
 
-      if (!dadosExport.length) return showToast('Nenhum lançamento encontrado nos filtros atuais para exportar.', 'warning');
+  const styles = {
+    bannerTitle: {
+      font: { name: 'Calibri', sz: 16, bold: true, color: { rgb: 'FFFFFF' } },
+      fill: { fgColor: { rgb: '4C0519' } },
+      alignment: { horizontal: 'left', vertical: 'center', indent: 1 }
+    },
+    bannerSub: {
+      font: { name: 'Calibri', sz: 10, italic: true, color: { rgb: 'FDE68A' } },
+      fill: { fgColor: { rgb: '881337' } },
+      alignment: { horizontal: 'left', vertical: 'center', indent: 1 }
+    },
+    catHeader: {
+      font: { name: 'Calibri', sz: 11, bold: true, color: { rgb: 'FDE68A' } },
+      fill: { fgColor: { rgb: '881337' } },
+      alignment: { horizontal: 'left', vertical: 'center', indent: 1 }
+    },
+    tableHeader: {
+      font: { name: 'Calibri', sz: 10, bold: true, color: { rgb: 'FFFFFF' } },
+      fill: { fgColor: { rgb: '9F1239' } },
+      alignment: { horizontal: 'center', vertical: 'center' },
+      border: borderThin
+    },
+    cellText: {
+      font: { name: 'Calibri', sz: 10, color: { rgb: '1E293B' } },
+      alignment: { horizontal: 'left', vertical: 'center', wrapText: true },
+      border: borderThin
+    },
+    cellCenter: {
+      font: { name: 'Calibri', sz: 10, color: { rgb: '1E293B' } },
+      alignment: { horizontal: 'center', vertical: 'center' },
+      border: borderThin
+    },
+    cellMoney: {
+      font: { name: 'Calibri', sz: 10, bold: true, color: { rgb: '881337' } },
+      alignment: { horizontal: 'right', vertical: 'center' },
+      numFmt: '"R$" #,##0.00',
+      border: borderThin
+    },
+    statusPago: {
+      font: { name: 'Calibri', sz: 10, bold: true, color: { rgb: '065F46' } },
+      fill: { fgColor: { rgb: 'D1FAE5' } },
+      alignment: { horizontal: 'center', vertical: 'center' },
+      border: borderThin
+    },
+    statusPendente: {
+      font: { name: 'Calibri', sz: 10, bold: true, color: { rgb: '92400E' } },
+      fill: { fgColor: { rgb: 'FEF3C7' } },
+      alignment: { horizontal: 'center', vertical: 'center' },
+      border: borderThin
+    },
+    statusVencido: {
+      font: { name: 'Calibri', sz: 10, bold: true, color: { rgb: '991B1B' } },
+      fill: { fgColor: { rgb: 'FEE2E2' } },
+      alignment: { horizontal: 'center', vertical: 'center' },
+      border: borderThin
+    },
+    subtotalRow: {
+      font: { name: 'Calibri', sz: 10, bold: true, color: { rgb: '4C0519' } },
+      fill: { fgColor: { rgb: 'FFE4E6' } },
+      alignment: { horizontal: 'right', vertical: 'center' },
+      border: borderThin
+    },
+    subtotalMoney: {
+      font: { name: 'Calibri', sz: 10, bold: true, color: { rgb: '4C0519' } },
+      fill: { fgColor: { rgb: 'FFE4E6' } },
+      alignment: { horizontal: 'right', vertical: 'center' },
+      numFmt: '"R$" #,##0.00',
+      border: borderThin
+    },
+    resumoTitle: {
+      font: { name: 'Calibri', sz: 11, bold: true, color: { rgb: 'FFFFFF' } },
+      fill: { fgColor: { rgb: '4C0519' } },
+      alignment: { horizontal: 'center', vertical: 'center' },
+      border: borderThin
+    },
+    resumoLabel: {
+      font: { name: 'Calibri', sz: 10, bold: true, color: { rgb: '1E293B' } },
+      fill: { fgColor: { rgb: 'FFF1F2' } },
+      alignment: { horizontal: 'left', vertical: 'center' },
+      border: borderThin
+    }
+  };
 
-      const borderThin = {
-        top: { style: 'thin', color: { rgb: 'E5D0D5' } },
-        bottom: { style: 'thin', color: { rgb: 'E5D0D5' } },
-        left: { style: 'thin', color: { rgb: 'E5D0D5' } },
-        right: { style: 'thin', color: { rgb: 'E5D0D5' } }
-      };
+  const setCell = (r, c, val, style, formula = null) => {
+    const addr = XLSX.utils.encode_cell({ r, c });
+    const cell = { v: val, s: style };
+    if (formula) {
+      cell.f = formula;
+      cell.t = 'n';
+    } else if (typeof val === 'number') {
+      cell.t = 'n';
+    } else {
+      cell.t = 's';
+    }
+    ws[addr] = cell;
+  };
 
-      const styleHeader = {
-        font: { bold: true, color: { rgb: 'FFFBEB' }, sz: 11 },
-        fill: { fgColor: { rgb: '4C0519' } },
-        alignment: { horizontal: 'center', vertical: 'center', wrapText: true },
-        border: borderThin
-      };
+  // Cabeçalho Principal (Linhas 1 e 2)
+  const periodoTexto = mesFiltro === 'ALL' ? 'Todos os Meses' : `Período: ${mesFiltro}`;
+  setCell(0, 0, "D'FITAS FINANCEIRO — RELATÓRIO DE DESPESAS & CONTAS", styles.bannerTitle);
+  setCell(1, 0, `${periodoTexto}  |  Gerado em: ${new Date().toLocaleDateString('pt-BR')}  |  Dica: Altere Status para "Pago" ou "Pendente" para recalcular os totais`, styles.bannerSub);
+  for (let c = 1; c <= 7; c++) {
+    setCell(0, c, '', styles.bannerTitle);
+    setCell(1, c, '', styles.bannerSub);
+  }
+  merges.push({ s: { r: 0, c: 0 }, e: { r: 0, c: 7 } });
+  merges.push({ s: { r: 1, c: 0 }, e: { r: 1, c: 7 } });
 
-      const styleTitle = {
-        font: { bold: true, color: { rgb: '4C0519' }, sz: 14 },
-        fill: { fgColor: { rgb: 'FFF1F2' } },
-        alignment: { horizontal: 'left', vertical: 'center' }
-      };
+  // Quadro de Resumo Gerencial no Topo (Linhas 4 a 10 - índices 3 a 9)
+  const categoriasOrdem = [
+    { key: 'Despesas Operacionais & Administrativas', titulo: 'CATEGORIA: DESPESAS OPERACIONAIS & ADMINISTRATIVAS' },
+    { key: 'Fretes & Logística', titulo: 'CATEGORIA: FRETES & LOGÍSTICA' },
+    { key: 'Contas a Pagar & Fixas', titulo: 'CATEGORIA: CONTAS A PAGAR & FIXAS' },
+    { key: 'Salários & Folha', titulo: 'CATEGORIA: SALÁRIOS & FOLHA' }
+  ];
 
-      const styleTotalRow = {
-        font: { bold: true, color: { rgb: '4C0519' }, sz: 11 },
-        fill: { fgColor: { rgb: 'FDE68A' } },
-        border: borderThin
-      };
+  // Primeiro montamos as seções a partir da linha 12 (índice 11) para saber os intervalos exatos de linhas
+  let rowIdx = 11;
+  const catRanges = {}; // Guarda { startRow1Based, endRow1Based, subtotalRow1Based }
 
-      const headers = [
-        'Categoria',
-        'Favorecido / Tipo de Despesa',
-        'Nº NF / Itens / Tipo de Gasto',
-        'Data Emissão',
-        'Data Vencimento',
-        'Valor (R$)',
-        'Forma de Pagamento',
-        'Status',
-        'Situação Vencimento',
-        'Anexo',
-        'Observações'
-      ];
+  categoriasOrdem.forEach(catObj => {
+    const itensCat = dadosFiltrados.filter(i => i.categoria === catObj.key);
+    if (!itensCat.length) return;
 
-      const aoaLancamentos = [
-        [`D'FITAS FINANCEIRO — RELATÓRIO DE DESPESAS (${mesFiltro === 'ALL' ? 'TODOS OS MESES' : mesFiltro})`],
-        [],
-        headers
-      ];
+    // Faixa de Título da Categoria
+    setCell(rowIdx, 0, catObj.titulo, styles.catHeader);
+    for (let c = 1; c <= 7; c++) setCell(rowIdx, c, '', styles.catHeader);
+    merges.push({ s: { r: rowIdx, c: 0 }, e: { r: rowIdx, c: 7 } });
+    rowIdx++;
 
-      let totalGeral = 0;
-      let totalPago = 0;
-      let totalPendente = 0;
-      let totalVencido = 0;
-      const porCategoria = {};
+    // Cabeçalho da Tabela da Categoria
+    const headers = [
+      'Favorecido / Tipo',
+      'Detalhes / Itens / NF',
+      'Data Emissão',
+      'Vencimento',
+      'Forma Pagamento',
+      'Status (Editável)',
+      'Valor (R$)',
+      'Observações'
+    ];
+    headers.forEach((h, c) => setCell(rowIdx, c, h, styles.tableHeader));
+    rowIdx++;
 
-      dadosExport.forEach(i => {
-        const val = Number(i.valor || 0);
-        const sitCode = getVencimentoStatus(i);
-        const sitLabel = sitCode === 'PAGO' ? 'Pago'
-                       : sitCode === 'VENCIDO' ? 'VENCIDO'
-                       : sitCode === 'BREVE' ? 'Vence em Breve'
-                       : 'No Prazo';
+    const firstDataRow1Based = rowIdx + 1;
 
-        totalGeral += val;
-        if (sitCode === 'PAGO') totalPago += val;
-        else {
-          totalPendente += val;
-          if (sitCode === 'VENCIDO') totalVencido += val;
-        }
+    itensCat.forEach(item => {
+      const sit = getVencimentoStatus(item);
+      let favorecido = item.favorecido || item.subcategoria || '—';
+      let detalhe = '—';
 
-        porCategoria[i.categoria] = (porCategoria[i.categoria] || 0) + val;
-
-        const detalhe = i.numero || i.tipoGasto || (Array.isArray(i.itens) ? i.itens.join(', ') : (i.itens || ''));
-
-        aoaLancamentos.push([
-          i.categoria || '',
-          i.favorecido || i.subcategoria || '',
-          detalhe || '—',
-          formatDate(i.emissao),
-          formatDate(i.vencimento),
-          val,
-          i.forma || '',
-          i.status || '',
-          sitLabel,
-          i.fileData ? (i.fileName || 'Sim') : 'Não',
-          i.observacoes || ''
-        ]);
-      });
-
-      const totalRowIdx = aoaLancamentos.length;
-      aoaLancamentos.push([
-        'TOTAL GERAL',
-        `${dadosExport.length} lançamento(s)`,
-        '',
-        '',
-        '',
-        totalGeral,
-        '',
-        '',
-        '',
-        '',
-        ''
-      ]);
-
-      const wsLanc = XLSX.utils.aoa_to_sheet(aoaLancamentos);
-      wsLanc['!merges'] = [{ s: { r: 0, c: 0 }, e: { r: 0, c: headers.length - 1 } }];
-      wsLanc['!rows'] = [{ hpt: 28 }, { hpt: 8 }, { hpt: 24 }];
-      wsLanc['A1'].s = styleTitle;
-
-      for (let c = 0; c < headers.length; c++) {
-        const headerRef = XLSX.utils.encode_cell({ r: 2, c });
-        if (wsLanc[headerRef]) wsLanc[headerRef].s = styleHeader;
-
-        const totalRef = XLSX.utils.encode_cell({ r: totalRowIdx, c });
-        if (wsLanc[totalRef]) {
-          wsLanc[totalRef].s = {
-            ...styleTotalRow,
-            alignment: { horizontal: c === 5 ? 'right' : 'left', vertical: 'center' }
-          };
-          if (c === 5) wsLanc[totalRef].z = '"R$ "#,##0.00';
-        }
+      if (item.categoria === 'Despesas Operacionais & Administrativas') {
+        favorecido = item.subcategoria || item.favorecido || 'Despesa Operacional';
+        detalhe = Array.isArray(item.itens) ? item.itens.join(', ') : (item.itens || '—');
+      } else if (item.categoria === 'Fretes & Logística') {
+        detalhe = item.tipoGasto || '—';
+      } else if (item.categoria === 'Contas a Pagar & Fixas') {
+        detalhe = item.numero ? `NF/Doc: ${item.numero}` : '—';
       }
 
-      for (let r = 3; r < totalRowIdx; r++) {
-        const isEven = r % 2 === 0;
-        const sitVal = wsLanc[XLSX.utils.encode_cell({ r, c: 8 })]?.v;
+      const statusStyle = item.status === 'Pago'
+        ? styles.statusPago
+        : (sit === 'VENCIDO' ? styles.statusVencido : styles.statusPendente);
 
-        for (let c = 0; c < headers.length; c++) {
-          const ref = XLSX.utils.encode_cell({ r, c });
-          if (!wsLanc[ref]) continue;
+      setCell(rowIdx, 0, favorecido, styles.cellText);
+      setCell(rowIdx, 1, detalhe, styles.cellText);
+      setCell(rowIdx, 2, formatDate(item.emissao), styles.cellCenter);
+      setCell(rowIdx, 3, formatDate(item.vencimento), styles.cellCenter);
+      setCell(rowIdx, 4, item.forma || '—', styles.cellCenter);
+      setCell(rowIdx, 5, item.status || 'Pendente', statusStyle);
+      setCell(rowIdx, 6, Number(item.valor || 0), styles.cellMoney);
+      setCell(rowIdx, 7, item.observacoes || '', styles.cellText);
+      rowIdx++;
+    });
 
-          let bg = isEven ? 'FFF8F9' : 'FFFFFF';
-          let fontColor = '1C1917';
-          let isBold = c === 5;
+    const lastDataRow1Based = rowIdx;
+    const subtotalRow1Based = rowIdx + 1;
 
-          if (c === 8) {
-            isBold = true;
-            if (sitVal === 'Pago') { bg = 'DCFCE7'; fontColor = '166534'; }
-            else if (sitVal === 'VENCIDO') { bg = 'FEE2E2'; fontColor = '991B1B'; }
-            else if (sitVal === 'Vence em Breve') { bg = 'FEF3C7'; fontColor = '92400E'; }
-          }
+    // Linha de Subtotal da Categoria com Fórmula SUM
+    setCell(rowIdx, 0, `SUBTOTAL — ${catObj.key.toUpperCase()}`, styles.subtotalRow);
+    for (let c = 1; c <= 5; c++) setCell(rowIdx, c, '', styles.subtotalRow);
+    merges.push({ s: { r: rowIdx, c: 0 }, e: { r: rowIdx, c: 5 } });
+    setCell(rowIdx, 6, 0, styles.subtotalMoney, `SUM(G${firstDataRow1Based}:G${lastDataRow1Based})`);
+    setCell(rowIdx, 7, '', styles.subtotalRow);
 
-          wsLanc[ref].s = {
-            font: { bold: isBold, color: { rgb: fontColor }, sz: 10 },
-            fill: { fgColor: { rgb: bg } },
-            alignment: {
-              horizontal: c === 5 ? 'right' : (c === 3 || c === 4 || c === 7 || c === 8 || c === 9 ? 'center' : 'left'),
-              vertical: 'center',
-              wrapText: true
-            },
-            border: borderThin
-          };
-
-          if (c === 5) wsLanc[ref].z = '"R$ "#,##0.00';
-        }
-      }
-
-      wsLanc['!cols'] = [
-        { wch: 34 },
-        { wch: 28 },
-        { wch: 32 },
-        { wch: 14 },
-        { wch: 16 },
-        { wch: 16 },
-        { wch: 20 },
-        { wch: 12 },
-        { wch: 18 },
-        { wch: 18 },
-        { wch: 30 }
-      ];
-
-      const aoaResumo = [
-        ["D'FITAS FINANCEIRO — RESUMO CONSOLIDADO"],
-        [`Gerado em: ${new Date().toLocaleDateString('pt-BR')} | Filtro: ${mesFiltro === 'ALL' ? 'Todos os Meses' : mesFiltro}`],
-        [],
-        ['Indicador', 'Valor (R$)'],
-        ['Total Pago (Liquidado)', totalPago],
-        ['Total Pendente (A Vencer + Vencidos)', totalPendente],
-        ['Total Vencido / Em Atraso', totalVencido],
-        ['TOTAL GERAL DO PERÍODO', totalGeral],
-        [],
-        ['Categoria', 'Total (R$)']
-      ];
-
-      Object.entries(porCategoria).forEach(([cat, soma]) => {
-        aoaResumo.push([cat, soma]);
-      });
-
-      const wsResumo = XLSX.utils.aoa_to_sheet(aoaResumo);
-      wsResumo['!merges'] = [
-        { s: { r: 0, c: 0 }, e: { r: 0, c: 1 } },
-        { s: { r: 1, c: 0 }, e: { r: 1, c: 1 } }
-      ];
-      wsResumo['A1'].s = styleTitle;
-      wsResumo['A2'].s = { font: { italic: true, color: { rgb: '78716C' }, sz: 10 } };
-
-      [3, 9].forEach(r => {
-        for (let c = 0; c <= 1; c++) {
-          const ref = XLSX.utils.encode_cell({ r, c });
-          if (wsResumo[ref]) wsResumo[ref].s = styleHeader;
-        }
-      });
-
-      for (let r = 4; r < aoaResumo.length; r++) {
-        if (r === 8 || r === 9) continue;
-        const isTotal = r === 7;
-        for (let c = 0; c <= 1; c++) {
-          const ref = XLSX.utils.encode_cell({ r, c });
-          if (!wsResumo[ref]) continue;
-          wsResumo[ref].s = isTotal
-            ? { ...styleTotalRow, alignment: { horizontal: c === 1 ? 'right' : 'left', vertical: 'center' } }
-            : {
-                font: { bold: c === 1, sz: 10, color: { rgb: r === 6 && c === 1 ? '991B1B' : '1C1917' } },
-                alignment: { horizontal: c === 1 ? 'right' : 'left', vertical: 'center' },
-                border: borderThin
-              };
-          if (c === 1) wsResumo[ref].z = '"R$ "#,##0.00';
-        }
-      }
-
-      wsResumo['!cols'] = [{ wch: 42 }, { wch: 20 }];
-
-      const wb = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(wb, wsResumo, 'Resumo');
-      XLSX.utils.book_append_sheet(wb, wsLanc, 'Lançamentos');
-
-      const sufixoMes = mesFiltro === 'ALL' ? new Date().toISOString().slice(0, 10) : mesFiltro;
-      XLSX.writeFile(wb, `DFitas_Relatorio_Despesas_${sufixoMes}.xlsx`);
-      showToast('Planilha Excel estilizada exportada com sucesso!', 'success');
+    catRanges[catObj.key] = {
+      start: firstDataRow1Based,
+      end: lastDataRow1Based,
+      sub: subtotalRow1Based
     };
 
+    rowIdx += 2; // Linha em branco separando os blocos
+  });
+
+  // Agora preenche o Quadro de Resumo Gerencial Dinâmico no Topo (Linhas 4 a 9 -> índices 3 a 8)
+  setCell(3, 0, 'RESUMO EXECUTIVO POR CATEGORIA (DINÂMICO)', styles.resumoTitle);
+  setCell(3, 1, '', styles.resumoTitle);
+  setCell(3, 2, 'Total Pago', styles.resumoTitle);
+  setCell(3, 3, 'Total Pendente', styles.resumoTitle);
+  setCell(3, 4, 'Total Geral', styles.resumoTitle);
+  merges.push({ s: { r: 3, c: 0 }, e: { r: 3, c: 1 } });
+
+  let rResumo = 4;
+  categoriasOrdem.forEach(catObj => {
+    const rng = catRanges[catObj.key];
+    setCell(rResumo, 0, catObj.key, styles.resumoLabel);
+    setCell(rResumo, 1, '', styles.resumoLabel);
+    merges.push({ s: { r: rResumo, c: 0 }, e: { r: rResumo, c: 1 } });
+
+    if (rng) {
+      setCell(rResumo, 2, 0, styles.cellMoney, `SUMIFS(G${rng.start}:G${rng.end},F${rng.start}:F${rng.end},"Pago")`);
+      setCell(rResumo, 3, 0, styles.cellMoney, `SUMIFS(G${rng.start}:G${rng.end},F${rng.start}:F${rng.end},"Pendente")`);
+      setCell(rResumo, 4, 0, styles.subtotalMoney, `SUM(C${rResumo + 1}:D${rResumo + 1})`);
+    } else {
+      setCell(rResumo, 2, 0, styles.cellMoney);
+      setCell(rResumo, 3, 0, styles.cellMoney);
+      setCell(rResumo, 4, 0, styles.subtotalMoney);
+    }
+    rResumo++;
+  });
+
+  // Linha de Total Geral Consolidado no Resumo (Linha 9 -> índice 8)
+  setCell(rResumo, 0, 'TOTAL GERAL CONSOLIDADO', styles.subtotalRow);
+  setCell(rResumo, 1, '', styles.subtotalRow);
+  merges.push({ s: { r: rResumo, c: 0 }, e: { r: rResumo, c: 1 } });
+  setCell(rResumo, 2, 0, styles.subtotalMoney, 'SUM(C5:C8)');
+  setCell(rResumo, 3, 0, styles.subtotalMoney, 'SUM(D5:D8)');
+  setCell(rResumo, 4, 0, styles.subtotalMoney, 'SUM(E5:E8)');
+
+  // Configuração final da planilha
+  ws['!ref'] = XLSX.utils.encode_range({ s: { r: 0, c: 0 }, e: { r: Math.max(rowIdx, 10), c: 7 } });
+  ws['!merges'] = merges;
+  ws['!cols'] = [
+    { wch: 32 }, // A: Favorecido / Tipo
+    { wch: 38 }, // B: Detalhes / Itens / NF
+    { wch: 15 }, // C: Data Emissão
+    { wch: 15 }, // D: Vencimento
+    { wch: 20 }, // E: Forma Pagamento
+    { wch: 18 }, // F: Status
+    { wch: 18 }, // G: Valor
+    { wch: 30 }  // H: Observações
+  ];
+  ws['!rows'] = [
+    { hpt: 28 },
+    { hpt: 20 }
+  ];
+
+  XLSX.utils.book_append_sheet(wb, ws, 'Relatorio_DFitas');
+  XLSX.writeFile(wb, `DFitas_Financeiro_${new Date().toISOString().slice(0, 10)}.xlsx`);
+  showToast('Planilha Excel gerencial exportada com sucesso!', 'success');
+};
     window.maskCurrencyInput = (input) => {
       let v = input.value.replace(/\D/g, "");
       if (!v) { input.value = ""; return; }
