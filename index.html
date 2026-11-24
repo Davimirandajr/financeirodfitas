@@ -10,6 +10,12 @@
   <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
+  <!-- Favicon e ícones para aba e atalhos no Windows -->
+  <link rel="icon" type="image/png" sizes="32x32" href=".image/logo.png?v=2">
+  <link rel="icon" type="image/png" sizes="192x192" href="./image/logo.png?v=2">
+  <link rel="apple-touch-icon" sizes="180x180" href="./image/logo.png?v=2">
+  <link rel="manifest" href="./manifest.json?v=2">
+
   <script>
     tailwind.config = {
       theme: {
@@ -18,12 +24,11 @@
           colors: { 
             dfitas: {
               wine: '#881337',
-              crimson: '#be123c',
+              crimson: '#9f1239',
               darkWine: '#4c0519',
               gold: '#d97706',
-              amberLight: '#fef3c7',
-              cream: '#fff5f7',
-              blush: '#ffe4e6'
+              cream: '#fdf8f6',
+              blush: '#fff1f2'
             }
           }
         }
@@ -32,93 +37,34 @@
   </script>
 
   <style>
-    body {
-      font-family: 'Inter', sans-serif;
-      background-color: #fff5f7;
-      color: #270912;
-      min-height: 100vh;
-    }
-
+    body { font-family: 'Inter', sans-serif; background-color: #fdf8f6; color: #270912; min-height: 100vh; }
     .bg-dfitas-dashboard {
       background-image:
-        radial-gradient(circle at 8% 12%, rgba(190, 18, 60, 0.22), transparent 38%),
-        radial-gradient(circle at 92% 16%, rgba(245, 158, 11, 0.24), transparent 40%),
-        radial-gradient(circle at 82% 88%, rgba(136, 19, 55, 0.20), transparent 45%),
-        radial-gradient(circle at 18% 85%, rgba(217, 119, 6, 0.16), transparent 42%),
-        linear-gradient(135deg, #fff1f2 0%, #ffe4e6 48%, #fef3c7 100%);
-      background-attachment: fixed;
+        radial-gradient(circle at 12% 15%, rgba(159, 18, 57, 0.08), transparent 40%),
+        radial-gradient(circle at 88% 85%, rgba(217, 119, 6, 0.08), transparent 42%),
+        linear-gradient(to bottom, rgba(253, 248, 246, 0.92), rgba(255, 241, 242, 0.96)),
+        url('https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=2000&auto=format&fit=crop');
+      background-size: cover; background-position: center; background-attachment: fixed;
     }
-
     .tech-grid {
-      background-size: 28px 28px;
-      background-image:
-        linear-gradient(to right, rgba(136, 19, 55, 0.055) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(217, 119, 6, 0.055) 1px, transparent 1px);
+      background-size: 32px 32px;
+      background-image: linear-gradient(to right, rgba(136, 19, 55, 0.04) 1px, transparent 1px), 
+                        linear-gradient(to bottom, rgba(136, 19, 55, 0.04) 1px, transparent 1px);
     }
-
     .glass-card {
-      background: linear-gradient(160deg, rgba(255, 255, 255, 0.96) 0%, rgba(255, 241, 242, 0.92) 100%);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1.5px solid rgba(190, 18, 60, 0.20);
-      box-shadow:
-        0 12px 28px -6px rgba(76, 5, 25, 0.12),
-        0 4px 12px -4px rgba(217, 119, 6, 0.10),
-        inset 0 1px 0 rgba(255, 255, 255, 0.95);
+      background: rgba(255, 255, 255, 0.92); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(159, 18, 57, 0.16);
+      box-shadow: 0 10px 30px -5px rgba(76, 5, 25, 0.08), inset 0 0 0 1px rgba(255, 255, 255, 0.85);
     }
-
     .btn-dfitas-primary {
-      background: linear-gradient(135deg, #4c0519 0%, #9f1239 48%, #d97706 125%);
+      background: linear-gradient(135deg, #881337 0%, #be123c 100%);
       color: #ffffff;
-      box-shadow: 0 6px 18px rgba(136, 19, 55, 0.34);
-      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 15px rgba(136, 19, 55, 0.30); transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     }
-
     .btn-dfitas-primary:hover {
-      background: linear-gradient(135deg, #881337 0%, #be123c 45%, #f59e0b 120%);
-      box-shadow: 0 8px 24px rgba(190, 18, 60, 0.45);
-      transform: translateY(-1.5px);
-    }
-
-    .quick-card-folha {
-      background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
-      border: 1.5px solid rgba(217, 119, 6, 0.35);
-    }
-    .quick-card-folha:hover {
-      border-color: #d97706;
-      box-shadow: 0 12px 24px -6px rgba(217, 119, 6, 0.28);
-      transform: translateY(-2px);
-    }
-
-    .quick-card-op {
-      background: linear-gradient(135deg, #fff1f2 0%, #ffe4e6 100%);
-      border: 1.5px solid rgba(190, 18, 60, 0.30);
-    }
-    .quick-card-op:hover {
-      border-color: #be123c;
-      box-shadow: 0 12px 24px -6px rgba(190, 18, 60, 0.25);
-      transform: translateY(-2px);
-    }
-
-    .quick-card-frete {
-      background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
-      border: 1.5px solid rgba(234, 88, 12, 0.32);
-    }
-    .quick-card-frete:hover {
-      border-color: #ea580c;
-      box-shadow: 0 12px 24px -6px rgba(234, 88, 12, 0.25);
-      transform: translateY(-2px);
-    }
-
-    .quick-card-contas {
-      background: linear-gradient(135deg, #881337 0%, #4c0519 100%);
-      border: 1.5px solid rgba(251, 191, 36, 0.45);
-      color: #ffffff;
-    }
-    .quick-card-contas:hover {
-      border-color: #fbbf24;
-      box-shadow: 0 12px 26px -6px rgba(76, 5, 25, 0.42);
-      transform: translateY(-2px);
+      background: linear-gradient(135deg, #9f1239 0%, #d97706 160%);
+      box-shadow: 0 6px 22px rgba(136, 19, 55, 0.42);
+      transform: translateY(-1px);
     }
   </style>
 </head>
@@ -128,37 +74,35 @@
        TELA DE LOGIN EXCLUSIVO (PROPRIETÁRIA)
        ===================================================================== -->
   <div id="login-screen" class="min-h-screen flex items-center justify-center p-4">
-    <div class="glass-card rounded-3xl p-8 sm:p-10 max-w-md w-full border-2 border-rose-800/25 shadow-2xl relative overflow-hidden">
-      <div class="h-2 w-full bg-gradient-to-r from-rose-950 via-rose-600 to-amber-500 absolute top-0 left-0"></div>
-
-      <div class="flex flex-col items-center text-center mb-8 mt-2">
-        <div class="w-24 h-24 rounded-full bg-gradient-to-br from-rose-950 via-rose-700 to-amber-500 p-1 shadow-xl mb-4 flex items-center justify-center">
-          <div class="w-full h-full rounded-full bg-gradient-to-b from-rose-900 to-rose-950 flex flex-col items-center justify-center border-2 border-amber-300/70">
-            <span class="font-serif italic text-3xl font-bold text-white leading-none drop-shadow">D'fitas</span>
-            <span class="text-[9px] font-extrabold uppercase tracking-widest text-amber-300 mt-1">Financeiro</span>
+    <div class="glass-card rounded-3xl p-8 sm:p-10 max-w-md w-full border border-rose-900/20 shadow-2xl relative overflow-hidden">
+      <div class="flex flex-col items-center text-center mb-8">
+        <div class="w-20 h-20 rounded-full bg-gradient-to-br from-rose-950 via-rose-800 to-amber-600 p-1 shadow-lg mb-4 flex items-center justify-center">
+          <div class="w-full h-full rounded-full bg-rose-950 flex flex-col items-center justify-center border border-amber-400/40">
+            <span class="font-serif italic text-2xl font-bold text-white leading-none">D'fitas</span>
+            <span class="text-[8px] uppercase tracking-widest text-amber-300 mt-0.5">Financeiro</span>
           </div>
         </div>
-        <span class="px-3.5 py-1 text-[10px] font-extrabold uppercase tracking-widest bg-gradient-to-r from-rose-100 to-amber-100 text-rose-950 border border-amber-400/60 rounded-full mb-2 shadow-sm">
+        <span class="px-3 py-0.5 text-[10px] font-extrabold uppercase tracking-widest bg-rose-100 text-rose-900 border border-rose-300 rounded-full mb-2">
           Acesso Exclusivo • Proprietária
         </span>
         <h1 class="text-2xl font-black text-rose-950 tracking-tight">D'Fitas Financeiro</h1>
-        <p class="text-xs text-rose-900/75 font-medium mt-1">Gestão de Despesas, Folha Salarial e Notas Fiscais</p>
+        <p class="text-xs text-stone-600 mt-1">Gestão de Despesas, Folha Salarial e Notas Fiscais</p>
       </div>
 
       <form id="login-form" class="space-y-4">
         <div>
           <label class="block text-xs font-bold text-rose-950 uppercase tracking-wider mb-1.5">E-mail de Acesso</label>
           <div class="relative">
-            <i data-lucide="mail" class="w-4 h-4 text-rose-700 absolute left-3.5 top-3"></i>
-            <input type="email" id="login-email" required placeholder="diretoria@dfitas.com.br" class="w-full bg-white border border-rose-900/25 rounded-xl pl-10 pr-4 py-2.5 text-sm text-stone-900 focus:outline-none focus:border-rose-700 focus:ring-2 focus:ring-rose-200">
+            <i data-lucide="mail" class="w-4 h-4 text-rose-800/60 absolute left-3.5 top-3"></i>
+            <input type="email" id="login-email" required placeholder="diretoria@dfitas.com.br" class="w-full bg-white border border-rose-900/20 rounded-xl pl-10 pr-4 py-2.5 text-sm text-stone-900 focus:outline-none focus:border-rose-800">
           </div>
         </div>
 
         <div>
           <label class="block text-xs font-bold text-rose-950 uppercase tracking-wider mb-1.5">Senha</label>
           <div class="relative">
-            <i data-lucide="lock" class="w-4 h-4 text-rose-700 absolute left-3.5 top-3"></i>
-            <input type="password" id="login-password" required placeholder="••••••••" class="w-full bg-white border border-rose-900/25 rounded-xl pl-10 pr-4 py-2.5 text-sm text-stone-900 focus:outline-none focus:border-rose-700 focus:ring-2 focus:ring-rose-200">
+            <i data-lucide="lock" class="w-4 h-4 text-rose-800/60 absolute left-3.5 top-3"></i>
+            <input type="password" id="login-password" required placeholder="••••••••" class="w-full bg-white border border-rose-900/20 rounded-xl pl-10 pr-4 py-2.5 text-sm text-stone-900 focus:outline-none focus:border-rose-800">
           </div>
         </div>
 
@@ -178,40 +122,38 @@
   <div id="app-shell" class="hidden flex-col min-h-screen pb-12">
 
     <!-- HEADER -->
-    <header class="sticky top-0 z-40 border-b-2 border-amber-400/50 bg-gradient-to-r from-rose-950 via-rose-900 to-rose-950 text-white shadow-xl backdrop-blur-xl">
+    <header class="sticky top-0 z-40 glass-card border-b border-rose-900/15 bg-white/90 backdrop-blur-xl">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-2">
         <div class="flex items-center space-x-3 shrink-0">
-          <div class="w-12 h-12 rounded-full bg-gradient-to-br from-amber-300 via-amber-500 to-rose-700 p-0.5 flex items-center justify-center shadow-lg">
-            <div class="w-full h-full rounded-full bg-rose-950 flex items-center justify-center">
-              <span class="font-serif italic text-lg font-bold text-amber-200 leading-none">Df</span>
-            </div>
+          <div class="w-11 h-11 rounded-full bg-gradient-to-br from-rose-950 via-rose-800 to-amber-600 flex items-center justify-center shadow-md border border-amber-300/50">
+            <span class="font-serif italic text-base font-bold text-white leading-none">Df</span>
           </div>
           <div>
             <div class="flex items-center space-x-2">
-              <span class="font-black text-base sm:text-xl tracking-wider text-white">D'FITAS FINANCEIRO</span>
-              <span class="hidden sm:inline-block px-2.5 py-0.5 text-[10px] font-extrabold uppercase bg-amber-400 text-rose-950 rounded-md shadow-sm">
+              <span class="font-black text-base sm:text-xl tracking-wider text-rose-950">D'FITAS FINANCEIRO</span>
+              <span class="hidden sm:inline-block px-2 py-0.5 text-[10px] font-bold uppercase bg-amber-100 text-amber-900 border border-amber-300 rounded-md">
                 Diretoria
               </span>
             </div>
-            <p class="text-[10px] sm:text-[11px] font-bold text-amber-200/90 tracking-widest uppercase">NOTAS FISCAIS • FOLHA • CONTAS A PAGAR</p>
+            <p class="text-[10px] sm:text-[11px] font-extrabold text-rose-800 tracking-widest uppercase">NOTAS FISCAIS • FOLHA • CONTAS A PAGAR</p>
           </div>
         </div>
 
         <div class="flex items-center space-x-2 sm:space-x-3 flex-wrap justify-end">
           <!-- FILTRO DE MÊS -->
-          <div class="flex items-center space-x-1.5 bg-rose-950/80 px-3 py-1.5 rounded-xl border border-amber-300/40 shadow-sm">
-            <i data-lucide="calendar" class="w-4 h-4 text-amber-300"></i>
-            <select id="global-mes-filter" onchange="renderAll()" class="bg-transparent text-xs font-bold text-amber-100 focus:outline-none cursor-pointer">
-              <option value="ALL" class="text-stone-900 bg-white">Todos os Meses</option>
+          <div class="flex items-center space-x-1.5 bg-white px-2.5 py-1.5 rounded-xl border border-rose-900/20 shadow-sm">
+            <i data-lucide="calendar" class="w-4 h-4 text-rose-800"></i>
+            <select id="global-mes-filter" onchange="renderAll()" class="bg-transparent text-xs font-bold text-rose-950 focus:outline-none">
+              <option value="ALL">Todos os Meses</option>
             </select>
           </div>
 
-          <button onclick="exportToExcel()" class="px-3.5 py-2 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-rose-950 text-xs font-black flex items-center space-x-1.5 shadow-md transition-all" title="Exportar relatório .xlsx">
-            <i data-lucide="file-spreadsheet" class="w-4 h-4 text-rose-950"></i>
+          <button onclick="exportToExcel()" class="btn-dfitas-primary px-3.5 py-2 rounded-xl text-xs font-bold flex items-center space-x-1.5 shadow-md" title="Exportar relatório .xlsx">
+            <i data-lucide="file-spreadsheet" class="w-4 h-4 text-amber-300"></i>
             <span class="hidden md:inline">Exportar Excel (.xlsx)</span>
           </button>
 
-          <button onclick="logout()" class="p-2 rounded-xl bg-rose-900/80 hover:bg-rose-800 border border-amber-300/30 text-amber-200 hover:text-white transition-colors shadow-sm" title="Sair do Sistema">
+          <button onclick="logout()" class="p-2 rounded-xl bg-white hover:bg-rose-50 border border-rose-900/15 text-rose-900 hover:text-rose-700 transition-colors shadow-sm" title="Sair do Sistema">
             <i data-lucide="log-out" class="w-4 h-4"></i>
           </button>
         </div>
@@ -222,7 +164,7 @@
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6 space-y-6 flex-grow w-full">
 
       <!-- BANNER DINÂMICO DE ALERTAS DE VENCIMENTO -->
-      <div id="alert-banner" class="hidden rounded-2xl p-4 border shadow-md flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      <div id="alert-banner" class="hidden rounded-2xl p-4 border shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div class="flex items-center space-x-3">
           <div id="alert-banner-icon" class="p-2.5 rounded-xl shrink-0"></div>
           <div>
@@ -238,89 +180,89 @@
       <!-- 4 CARDS DE RESUMO FINANCEIRO (KPIS DE DESPESAS) -->
       <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <!-- KPI 1: TOTAL PAGO -->
-        <div class="glass-card rounded-2xl p-5 border-t-4 border-t-emerald-600">
+        <div class="glass-card rounded-2xl p-5">
           <div class="flex items-center justify-between">
-            <span class="text-[11px] font-bold text-stone-600 uppercase tracking-wider">Total Pago (Liquidado)</span>
-            <div class="p-2.5 rounded-xl bg-emerald-100 text-emerald-800 border border-emerald-300"><i data-lucide="check-circle-2" class="w-4 h-4"></i></div>
+            <span class="text-[11px] font-bold text-stone-500 uppercase tracking-wider">Total Pago (Liquidado)</span>
+            <div class="p-2 rounded-xl bg-emerald-100 text-emerald-800 border border-emerald-300"><i data-lucide="check-circle-2" class="w-4 h-4"></i></div>
           </div>
           <div class="mt-3"><span id="kpi-pago-valor" class="text-2xl font-black text-emerald-700 font-mono">R$ 0,00</span></div>
-          <p class="text-[11px] text-stone-600 font-medium mt-2"><span id="kpi-pago-qtd" class="text-emerald-800 font-bold">0</span> pagamentos efetuados</p>
+          <p class="text-[11px] text-stone-500 font-medium mt-2"><span id="kpi-pago-qtd" class="text-emerald-800 font-bold">0</span> pagamentos efetuados</p>
         </div>
 
         <!-- KPI 2: A VENCER (NO PRAZO) -->
-        <div class="glass-card rounded-2xl p-5 border-t-4 border-t-rose-800">
+        <div class="glass-card rounded-2xl p-5">
           <div class="flex items-center justify-between">
-            <span class="text-[11px] font-bold text-stone-600 uppercase tracking-wider">A Vencer (No Prazo)</span>
-            <div class="p-2.5 rounded-xl bg-rose-100 text-rose-900 border border-rose-300"><i data-lucide="calendar-clock" class="w-4 h-4"></i></div>
+            <span class="text-[11px] font-bold text-stone-500 uppercase tracking-wider">A Vencer (No Prazo)</span>
+            <div class="p-2 rounded-xl bg-rose-100 text-rose-900 border border-rose-300"><i data-lucide="calendar-clock" class="w-4 h-4"></i></div>
           </div>
           <div class="mt-3"><span id="kpi-avencer-valor" class="text-2xl font-black text-rose-900 font-mono">R$ 0,00</span></div>
-          <p class="text-[11px] text-stone-600 font-medium mt-2"><span id="kpi-avencer-qtd" class="text-rose-900 font-bold">0</span> contas programadas</p>
+          <p class="text-[11px] text-stone-500 font-medium mt-2"><span id="kpi-avencer-qtd" class="text-rose-900 font-bold">0</span> contas programadas</p>
         </div>
 
         <!-- KPI 3: ALERTA PRÓXIMO (VENCE HOJE OU EM ATÉ 3 DIAS) -->
-        <div onclick="filterVenceBreve()" class="rounded-2xl p-5 cursor-pointer transition-all border-2 border-amber-400 border-t-4 border-t-amber-500 bg-gradient-to-br from-amber-50 to-amber-100/90 shadow-md hover:shadow-lg">
+        <div onclick="filterVenceBreve()" class="glass-card rounded-2xl p-5 cursor-pointer hover:border-amber-500 transition-all border border-amber-300/70 bg-amber-50/50">
           <div class="flex items-center justify-between">
             <span class="text-[11px] font-black text-amber-900 uppercase tracking-wider">Vence Hoje / Próx. 3 Dias</span>
-            <div class="p-2.5 rounded-xl bg-amber-400 text-rose-950 border border-amber-500 shadow-sm"><i data-lucide="bell-ring" class="w-4 h-4"></i></div>
+            <div class="p-2 rounded-xl bg-amber-100 text-amber-800 border border-amber-300"><i data-lucide="bell-ring" class="w-4 h-4"></i></div>
           </div>
-          <div class="mt-3"><span id="kpi-alerta-valor" class="text-2xl font-black text-amber-800 font-mono">R$ 0,00</span></div>
-          <p class="text-[11px] text-amber-950 font-bold mt-2"><span id="kpi-alerta-qtd" class="font-black">0</span> contas exigem atenção</p>
+          <div class="mt-3"><span id="kpi-alerta-valor" class="text-2xl font-black text-amber-700 font-mono">R$ 0,00</span></div>
+          <p class="text-[11px] text-amber-900 font-semibold mt-2"><span id="kpi-alerta-qtd" class="font-black">0</span> contas exigem atenção</p>
         </div>
 
         <!-- KPI 4: VENCIDOS / EM ATRASO -->
-        <div onclick="filterVencidos()" class="rounded-2xl p-5 cursor-pointer transition-all border-2 border-red-300 border-t-4 border-t-red-600 bg-gradient-to-br from-red-50 to-rose-100/90 shadow-md hover:shadow-lg">
+        <div onclick="filterVencidos()" class="glass-card rounded-2xl p-5 cursor-pointer hover:border-red-500 transition-all border border-red-300/70 bg-red-50/50">
           <div class="flex items-center justify-between">
-            <span class="text-[11px] font-black text-red-900 uppercase tracking-wider">Vencidos / Em Atraso</span>
-            <div class="p-2.5 rounded-xl bg-red-600 text-white border border-red-700 shadow-sm"><i data-lucide="alert-octagon" class="w-4 h-4"></i></div>
+            <span class="text-[11px] font-black text-red-800 uppercase tracking-wider">Vencidos / Em Atraso</span>
+            <div class="p-2 rounded-xl bg-red-100 text-red-800 border border-red-300"><i data-lucide="alert-octagon" class="w-4 h-4"></i></div>
           </div>
           <div class="mt-3"><span id="kpi-vencido-valor" class="text-2xl font-black text-red-700 font-mono">R$ 0,00</span></div>
-          <p class="text-[11px] text-red-900 font-bold mt-2"><span id="kpi-vencido-qtd" class="font-black">0</span> contas atrasadas (clique)</p>
+          <p class="text-[11px] text-red-800 font-semibold mt-2"><span id="kpi-vencido-qtd" class="font-black">0</span> contas atrasadas (clique)</p>
         </div>
       </section>
 
-      <!-- BARRA DE LANÇAMENTO RÁPIDO POR CATEGORIA (4 CARDS COLORIDOS) -->
+      <!-- BARRA DE LANÇAMENTO RÁPIDO POR CATEGORIA (4 CARDS COMPACTOS) -->
       <section id="quick-launch-section" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <button onclick="openForm('Salários & Folha')" class="quick-card-folha rounded-2xl p-4 text-left transition-all group flex items-center space-x-3.5 shadow-sm">
-          <div class="p-3 rounded-xl bg-amber-500 text-white border border-amber-600 group-hover:scale-110 transition-transform shadow">
+        <button onclick="openForm('Salários & Folha')" class="glass-card rounded-2xl p-4 text-left hover:border-amber-500 transition-all group flex items-center space-x-3.5 border border-rose-900/15">
+          <div class="p-3 rounded-xl bg-amber-100 text-amber-800 border border-amber-300 group-hover:scale-110 transition-transform">
             <i data-lucide="users" class="w-6 h-6"></i>
           </div>
           <div>
-            <span class="text-[10px] font-black uppercase tracking-wider text-amber-800">+ Novo Lançamento</span>
+            <span class="text-[10px] font-extrabold uppercase tracking-wider text-amber-800">+ Novo Lançamento</span>
             <h3 class="text-sm font-black text-rose-950">Salários & Folha</h3>
-            <p class="text-[11px] text-amber-950/80 font-medium">Colaborador, vencimento, comprovante</p>
+            <p class="text-[11px] text-stone-500">Colaborador, vencimento, comprovante</p>
           </div>
         </button>
 
-        <button onclick="openForm('Despesas Operacionais & Administrativas')" class="quick-card-op rounded-2xl p-4 text-left transition-all group flex items-center space-x-3.5 shadow-sm">
-          <div class="p-3 rounded-xl bg-rose-700 text-white border border-rose-800 group-hover:scale-110 transition-transform shadow">
+        <button onclick="openForm('Despesas Operacionais & Administrativas')" class="glass-card rounded-2xl p-4 text-left hover:border-rose-600 transition-all group flex items-center space-x-3.5 border border-rose-900/15">
+          <div class="p-3 rounded-xl bg-rose-100 text-rose-900 border border-rose-300 group-hover:scale-110 transition-transform">
             <i data-lucide="briefcase" class="w-6 h-6"></i>
           </div>
           <div>
-            <span class="text-[10px] font-black uppercase tracking-wider text-rose-800">+ Novo Lançamento</span>
+            <span class="text-[10px] font-extrabold uppercase tracking-wider text-rose-800">+ Novo Lançamento</span>
             <h3 class="text-sm font-black text-rose-950">Despesas Operacionais</h3>
-            <p class="text-[11px] text-rose-950/80 font-medium">Limpeza, insumos da loja e itens</p>
+            <p class="text-[11px] text-stone-500">Limpeza, insumos da loja e itens</p>
           </div>
         </button>
 
-        <button onclick="openForm('Fretes & Logística')" class="quick-card-frete rounded-2xl p-4 text-left transition-all group flex items-center space-x-3.5 shadow-sm">
-          <div class="p-3 rounded-xl bg-orange-600 text-white border border-orange-700 group-hover:scale-110 transition-transform shadow">
+        <button onclick="openForm('Fretes & Logística')" class="glass-card rounded-2xl p-4 text-left hover:border-amber-600 transition-all group flex items-center space-x-3.5 border border-rose-900/15">
+          <div class="p-3 rounded-xl bg-orange-100 text-orange-900 border border-orange-300 group-hover:scale-110 transition-transform">
             <i data-lucide="truck" class="w-6 h-6"></i>
           </div>
           <div>
-            <span class="text-[10px] font-black uppercase tracking-wider text-orange-800">+ Novo Lançamento</span>
+            <span class="text-[10px] font-extrabold uppercase tracking-wider text-orange-800">+ Novo Lançamento</span>
             <h3 class="text-sm font-black text-rose-950">Fretes & Logística</h3>
-            <p class="text-[11px] text-orange-950/80 font-medium">Transporte, entrega, combustível</p>
+            <p class="text-[11px] text-stone-500">Transporte, entrega, combustível</p>
           </div>
         </button>
 
-        <button onclick="openForm('Contas a Pagar & Fixas')" class="quick-card-contas rounded-2xl p-4 text-left transition-all group flex items-center space-x-3.5 shadow-md">
-          <div class="p-3 rounded-xl bg-amber-400 text-rose-950 border border-amber-300 group-hover:scale-110 transition-transform shadow">
+        <button onclick="openForm('Contas a Pagar & Fixas')" class="glass-card rounded-2xl p-4 text-left hover:border-rose-800 transition-all group flex items-center space-x-3.5 border border-rose-900/15">
+          <div class="p-3 rounded-xl bg-rose-950 text-amber-300 border border-rose-900 group-hover:scale-110 transition-transform">
             <i data-lucide="receipt" class="w-6 h-6"></i>
           </div>
           <div>
-            <span class="text-[10px] font-black uppercase tracking-wider text-amber-300">+ Novo Lançamento</span>
-            <h3 class="text-sm font-black text-white">Contas a Pagar & Fixas</h3>
-            <p class="text-[11px] text-rose-100/90 font-medium">Fornecedor, NF, vencimento e alerta</p>
+            <span class="text-[10px] font-extrabold uppercase tracking-wider text-rose-800">+ Novo Lançamento</span>
+            <h3 class="text-sm font-black text-rose-950">Contas a Pagar & Fixas</h3>
+            <p class="text-[11px] text-stone-500">Fornecedor, NF, vencimento e alerta</p>
           </div>
         </button>
       </section>
@@ -328,13 +270,13 @@
       <!-- =====================================================================
            FORMULÁRIO DINÂMICO POR CATEGORIA
            ===================================================================== -->
-      <section id="form-section" class="glass-card rounded-2xl p-6 sm:p-8 hidden border-2 border-rose-800/30">
+      <section id="form-section" class="glass-card rounded-2xl p-6 sm:p-8 hidden border border-rose-900/25">
         <div class="flex items-center justify-between border-b border-rose-900/15 pb-4 mb-6">
           <div class="flex items-center space-x-3">
-            <div class="p-2.5 rounded-xl bg-gradient-to-br from-rose-900 to-rose-700 text-amber-200 border border-amber-400/50 shadow"><i data-lucide="file-plus-2" class="w-5 h-5"></i></div>
+            <div class="p-2.5 rounded-xl bg-rose-100 text-rose-900 border border-rose-300"><i data-lucide="file-plus-2" class="w-5 h-5"></i></div>
             <div>
               <h2 id="form-title" class="text-lg font-black text-rose-950">Registrar Lançamento</h2>
-              <p id="form-subtitle" class="text-xs text-rose-900/75 font-medium">Fotos pesadas são comprimidas automaticamente ao anexar</p>
+              <p id="form-subtitle" class="text-xs text-stone-500">Fotos pesadas são comprimidas automaticamente ao anexar</p>
             </div>
           </div>
           <button type="button" onclick="closeForm()" class="px-3.5 py-1.5 rounded-xl bg-white hover:bg-rose-50 text-rose-950 text-xs font-bold border border-rose-900/20">
@@ -348,7 +290,7 @@
             <!-- 1. CATEGORIA PRINCIPAL -->
             <div>
               <label class="block text-xs font-bold text-rose-950 uppercase mb-1.5">Categoria Principal <span class="text-rose-700">*</span></label>
-              <select id="inp-categoria" onchange="adaptFormFields(this.value)" required class="w-full bg-white border border-rose-900/25 rounded-xl px-3.5 py-2.5 text-sm font-bold text-rose-950 focus:outline-none focus:border-rose-700">
+              <select id="inp-categoria" onchange="adaptFormFields(this.value)" required class="w-full bg-white border border-rose-900/20 rounded-xl px-3.5 py-2.5 text-sm font-bold text-stone-900 focus:outline-none focus:border-rose-800">
                 <option value="Salários & Folha">Salários & Folha</option>
                 <option value="Despesas Operacionais & Administrativas">Despesas Operacionais & Administrativas</option>
                 <option value="Fretes & Logística">Fretes & Logística</option>
@@ -359,13 +301,13 @@
             <!-- 2A. CAMPO FAVORECIDO / COLABORADOR / PESSOA -->
             <div id="wrap-favorecido">
               <label id="lbl-favorecido" class="block text-xs font-bold text-rose-950 uppercase mb-1.5">Nome do Colaborador <span class="text-rose-700">*</span></label>
-              <input type="text" id="inp-favorecido" placeholder="Digite o nome..." class="w-full bg-white border border-rose-900/25 rounded-xl px-3.5 py-2.5 text-sm text-stone-900 focus:outline-none focus:border-rose-700">
+              <input type="text" id="inp-favorecido" placeholder="Digite o nome..." class="w-full bg-white border border-rose-900/20 rounded-xl px-3.5 py-2.5 text-sm text-stone-900 focus:outline-none focus:border-rose-800">
             </div>
 
             <!-- 2B. SUBCATEGORIA DE DESPESA OPERACIONAL -->
             <div id="wrap-subcategoria-op" class="hidden">
               <label class="block text-xs font-bold text-rose-950 uppercase mb-1.5">Tipo de Despesa Operacional <span class="text-rose-700">*</span></label>
-              <select id="inp-subcategoria-op" class="w-full bg-white border border-rose-900/25 rounded-xl px-3.5 py-2.5 text-sm font-bold text-rose-950 focus:outline-none focus:border-rose-700">
+              <select id="inp-subcategoria-op" class="w-full bg-white border border-rose-900/20 rounded-xl px-3.5 py-2.5 text-sm font-bold text-stone-900 focus:outline-none focus:border-rose-800">
                 <option value="Limpeza e Higiene">Limpeza e Higiene</option>
                 <option value="Insumos para Loja">Insumos para Loja (Embalagens, Etiquetas, etc.)</option>
                 <option value="Material de Escritório / Papelaria">Material de Escritório / Papelaria</option>
@@ -378,13 +320,13 @@
             <!-- 3A. NÚMERO DA NOTA FISCAL -->
             <div id="wrap-numero-nf" class="hidden">
               <label class="block text-xs font-bold text-rose-950 uppercase mb-1.5">Nº da Nota Fiscal / Documento</label>
-              <input type="text" id="inp-numero" placeholder="Ex: NF-00451 ou Boleto 123" class="w-full bg-white border border-rose-900/25 rounded-xl px-3.5 py-2.5 text-sm text-stone-900 focus:outline-none focus:border-rose-700">
+              <input type="text" id="inp-numero" placeholder="Ex: NF-00451 ou Boleto 123" class="w-full bg-white border border-rose-900/20 rounded-xl px-3.5 py-2.5 text-sm text-stone-900 focus:outline-none focus:border-rose-800">
             </div>
 
             <!-- 3B. TIPO DE GASTO FRETE -->
             <div id="wrap-tipo-frete" class="hidden">
               <label class="block text-xs font-bold text-rose-950 uppercase mb-1.5">Qual foi o Gasto? <span class="text-rose-700">*</span></label>
-              <select id="inp-tipo-frete" class="w-full bg-white border border-rose-900/25 rounded-xl px-3.5 py-2.5 text-sm font-bold text-rose-950 focus:outline-none focus:border-rose-700">
+              <select id="inp-tipo-frete" class="w-full bg-white border border-rose-900/20 rounded-xl px-3.5 py-2.5 text-sm font-bold text-stone-900 focus:outline-none focus:border-rose-800">
                 <option value="Transporte">Transporte</option>
                 <option value="Entrega">Entrega</option>
                 <option value="Combustível">Combustível</option>
@@ -394,7 +336,7 @@
             </div>
 
             <!-- 3C. LISTA DINÂMICA DE ITENS -->
-            <div id="wrap-itens-op" class="hidden md:col-span-2 lg:col-span-3 bg-gradient-to-r from-rose-50 to-amber-50/70 p-4 rounded-xl border border-amber-400/50 space-y-2.5">
+            <div id="wrap-itens-op" class="hidden md:col-span-2 lg:col-span-3 bg-rose-50/70 p-4 rounded-xl border border-rose-900/15 space-y-2.5">
               <div class="flex items-center justify-between">
                 <label class="block text-xs font-bold text-rose-950 uppercase">Item / Itens Comprados <span class="text-rose-700">*</span></label>
                 <button type="button" onclick="addOpItemRow()" class="px-3 py-1.5 rounded-lg bg-rose-900 hover:bg-rose-800 text-white text-xs font-bold flex items-center gap-1 shadow-sm">
@@ -408,25 +350,25 @@
             <!-- 4. VALOR -->
             <div>
               <label class="block text-xs font-bold text-rose-950 uppercase mb-1.5">Valor Total (R$) <span class="text-rose-700">*</span></label>
-              <input type="text" id="inp-valor" required placeholder="R$ 0,00" oninput="maskCurrencyInput(this)" class="w-full bg-white border border-rose-900/25 rounded-xl px-3.5 py-2.5 text-sm text-rose-900 font-mono font-black focus:outline-none focus:border-rose-700">
+              <input type="text" id="inp-valor" required placeholder="R$ 0,00" oninput="maskCurrencyInput(this)" class="w-full bg-white border border-rose-900/20 rounded-xl px-3.5 py-2.5 text-sm text-rose-900 font-mono font-black focus:outline-none focus:border-rose-800">
             </div>
 
             <!-- 5. DATA DE EMISSÃO / DATA DO GASTO -->
             <div>
               <label id="lbl-emissao" class="block text-xs font-bold text-rose-950 uppercase mb-1.5">Data de Emissão <span class="text-rose-700">*</span></label>
-              <input type="date" id="inp-emissao" required class="w-full bg-white border border-rose-900/25 rounded-xl px-3.5 py-2.5 text-sm text-stone-900 focus:outline-none focus:border-rose-700">
+              <input type="date" id="inp-emissao" required class="w-full bg-white border border-rose-900/20 rounded-xl px-3.5 py-2.5 text-sm text-stone-900 focus:outline-none focus:border-rose-800">
             </div>
 
             <!-- 6. DATA DE VENCIMENTO -->
             <div id="wrap-vencimento">
               <label class="block text-xs font-bold text-rose-950 uppercase mb-1.5">Data de Vencimento (Alerta) <span class="text-rose-700">*</span></label>
-              <input type="date" id="inp-vencimento" class="w-full bg-white border border-rose-900/25 rounded-xl px-3.5 py-2.5 text-sm text-stone-900 focus:outline-none focus:border-rose-700">
+              <input type="date" id="inp-vencimento" class="w-full bg-white border border-rose-900/20 rounded-xl px-3.5 py-2.5 text-sm text-stone-900 focus:outline-none focus:border-rose-800">
             </div>
 
             <!-- 7. FORMA DE PAGAMENTO -->
             <div>
               <label class="block text-xs font-bold text-rose-950 uppercase mb-1.5">Forma de Pagamento</label>
-              <select id="inp-forma" class="w-full bg-white border border-rose-900/25 rounded-xl px-3.5 py-2.5 text-sm text-stone-900 focus:outline-none focus:border-rose-700">
+              <select id="inp-forma" class="w-full bg-white border border-rose-900/20 rounded-xl px-3.5 py-2.5 text-sm text-stone-900 focus:outline-none focus:border-rose-800">
                 <option value="PIX / Transferência">PIX / Transferência</option>
                 <option value="Boleto Bancário">Boleto Bancário</option>
                 <option value="Cartão de Débito">Cartão de Débito</option>
@@ -439,7 +381,7 @@
             <!-- 8. STATUS DO PAGAMENTO -->
             <div>
               <label class="block text-xs font-bold text-rose-950 uppercase mb-1.5">Status do Pagamento <span class="text-rose-700">*</span></label>
-              <select id="inp-status" class="w-full bg-white border border-rose-900/25 rounded-xl px-3.5 py-2.5 text-sm font-bold text-rose-950 focus:outline-none focus:border-rose-700">
+              <select id="inp-status" class="w-full bg-white border border-rose-900/20 rounded-xl px-3.5 py-2.5 text-sm font-bold text-stone-900 focus:outline-none focus:border-rose-800">
                 <option value="Pendente">Pendente (Ativar Alertas)</option>
                 <option value="Pago">Pago / Liquidado</option>
               </select>
@@ -448,11 +390,11 @@
             <!-- 9. ANEXO ÚNICO (COM COMPRESSÃO AUTOMÁTICA DE FOTO) -->
             <div>
               <label class="block text-xs font-bold text-rose-950 uppercase mb-1.5">Anexo Único (Foto / PDF / Comprovante)</label>
-              <div id="drop-zone" onclick="document.getElementById('file-input').click()" class="border-2 border-dashed border-rose-800/35 hover:border-amber-500 rounded-xl px-3 py-2 text-center cursor-pointer bg-white transition-all h-[42px] flex items-center justify-center">
+              <div id="drop-zone" onclick="document.getElementById('file-input').click()" class="border-2 border-dashed border-rose-900/25 hover:border-rose-700 rounded-xl px-3 py-2 text-center cursor-pointer bg-white transition-all h-[42px] flex items-center justify-center">
                 <input type="file" id="file-input" class="hidden" accept=".pdf,.png,.jpg,.jpeg,.webp" onchange="handleFileSelect(event)">
                 
-                <div id="upload-placeholder" class="flex items-center space-x-2 text-xs text-rose-950 font-semibold">
-                  <i data-lucide="camera" class="w-4 h-4 text-amber-600"></i>
+                <div id="upload-placeholder" class="flex items-center space-x-2 text-xs text-stone-600 font-semibold">
+                  <i data-lucide="camera" class="w-4 h-4 text-rose-800"></i>
                   <span>Foto ou PDF (comprime auto)</span>
                 </div>
 
@@ -469,7 +411,7 @@
             <!-- 10. OBSERVAÇÕES -->
             <div class="md:col-span-2 lg:col-span-3">
               <label class="block text-xs font-bold text-rose-950 uppercase mb-1.5">Observações / Detalhes</label>
-              <input type="text" id="inp-obs" placeholder="Detalhes adicionais sobre este lançamento..." class="w-full bg-white border border-rose-900/25 rounded-xl px-3.5 py-2.5 text-sm text-stone-900 focus:outline-none focus:border-rose-700">
+              <input type="text" id="inp-obs" placeholder="Detalhes adicionais sobre este lançamento..." class="w-full bg-white border border-rose-900/20 rounded-xl px-3.5 py-2.5 text-sm text-stone-900 focus:outline-none focus:border-rose-800">
             </div>
           </div>
 
@@ -484,36 +426,36 @@
       </section>
 
       <!-- TABELA E FILTROS INTELIGENTES -->
-      <section class="glass-card rounded-2xl p-6 sm:p-8 space-y-5 border-t-4 border-t-amber-500">
+      <section class="glass-card rounded-2xl p-6 sm:p-8 space-y-5">
         <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-rose-900/15 pb-4">
           <div>
             <h2 class="text-lg font-black text-rose-950 flex items-center gap-2">
               <i data-lucide="list-checks" class="w-5 h-5 text-rose-800"></i>
               Histórico de Despesas & Notas Fiscais
             </h2>
-            <p class="text-xs text-rose-900/75 font-medium">Clique no ícone do documento para abrir a foto/PDF na tela ou dê baixa rápida com 1 clique</p>
+            <p class="text-xs text-stone-500">Clique no ícone do documento para abrir a foto/PDF na tela ou dê baixa rápida com 1 clique</p>
           </div>
-          <div id="table-counter" class="text-xs font-mono bg-gradient-to-r from-rose-100 to-amber-100 border border-amber-400/60 text-rose-950 px-3.5 py-1.5 rounded-xl font-extrabold self-start lg:self-auto shadow-sm">
+          <div id="table-counter" class="text-xs font-mono bg-rose-50 border border-rose-900/20 text-rose-950 px-3.5 py-1.5 rounded-xl font-bold self-start lg:self-auto">
             0 lançamentos
           </div>
         </div>
 
         <!-- ABAS RÁPIDAS DE CATEGORIA -->
         <div class="flex flex-wrap gap-2">
-          <button onclick="setCatTab('ALL')" data-cat-tab="ALL" class="cat-tab px-3.5 py-1.5 rounded-xl text-xs font-bold bg-gradient-to-r from-rose-950 to-rose-800 text-amber-100 shadow-sm">Todas</button>
-          <button onclick="setCatTab('Salários & Folha')" data-cat-tab="Salários & Folha" class="cat-tab px-3.5 py-1.5 rounded-xl text-xs font-bold bg-amber-50 text-amber-950 border border-amber-300 hover:bg-amber-100">Salários & Folha</button>
-          <button onclick="setCatTab('Despesas Operacionais & Administrativas')" data-cat-tab="Despesas Operacionais & Administrativas" class="cat-tab px-3.5 py-1.5 rounded-xl text-xs font-bold bg-rose-50 text-rose-950 border border-rose-200 hover:bg-rose-100">Despesas Operacionais</button>
-          <button onclick="setCatTab('Fretes & Logística')" data-cat-tab="Fretes & Logística" class="cat-tab px-3.5 py-1.5 rounded-xl text-xs font-bold bg-orange-50 text-orange-950 border border-orange-200 hover:bg-orange-100">Fretes & Logística</button>
-          <button onclick="setCatTab('Contas a Pagar & Fixas')" data-cat-tab="Contas a Pagar & Fixas" class="cat-tab px-3.5 py-1.5 rounded-xl text-xs font-bold bg-white text-rose-950 border border-rose-900/20 hover:bg-rose-50">Contas a Pagar & Fixas</button>
+          <button onclick="setCatTab('ALL')" data-cat-tab="ALL" class="cat-tab px-3.5 py-1.5 rounded-xl text-xs font-bold bg-rose-900 text-white shadow-sm">Todas</button>
+          <button onclick="setCatTab('Salários & Folha')" data-cat-tab="Salários & Folha" class="cat-tab px-3.5 py-1.5 rounded-xl text-xs font-bold bg-white text-rose-950 border border-rose-900/15 hover:bg-rose-50">Salários & Folha</button>
+          <button onclick="setCatTab('Despesas Operacionais & Administrativas')" data-cat-tab="Despesas Operacionais & Administrativas" class="cat-tab px-3.5 py-1.5 rounded-xl text-xs font-bold bg-white text-rose-950 border border-rose-900/15 hover:bg-rose-50">Despesas Operacionais</button>
+          <button onclick="setCatTab('Fretes & Logística')" data-cat-tab="Fretes & Logística" class="cat-tab px-3.5 py-1.5 rounded-xl text-xs font-bold bg-white text-rose-950 border border-rose-900/15 hover:bg-rose-50">Fretes & Logística</button>
+          <button onclick="setCatTab('Contas a Pagar & Fixas')" data-cat-tab="Contas a Pagar & Fixas" class="cat-tab px-3.5 py-1.5 rounded-xl text-xs font-bold bg-white text-rose-950 border border-rose-900/15 hover:bg-rose-50">Contas a Pagar & Fixas</button>
         </div>
 
         <!-- BARRA DE BUSCA E STATUS -->
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-gradient-to-r from-rose-50/90 to-amber-50/70 p-3.5 rounded-xl border border-rose-900/15">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-rose-50/70 p-3.5 rounded-xl border border-rose-900/15">
           <div>
-            <input type="text" id="filter-search" oninput="renderTable()" placeholder="Buscar por nome, item, tipo de gasto ou nº NF..." class="w-full bg-white border border-rose-900/20 rounded-lg px-3 py-2 text-xs text-stone-900 focus:outline-none focus:border-rose-700">
+            <input type="text" id="filter-search" oninput="renderTable()" placeholder="Buscar por nome, item, tipo de gasto ou nº NF..." class="w-full bg-white border border-rose-900/20 rounded-lg px-3 py-2 text-xs text-stone-900 focus:outline-none">
           </div>
           <div>
-            <select id="filter-status" onchange="renderTable()" class="w-full bg-white border border-rose-900/20 rounded-lg px-3 py-2 text-xs font-bold text-rose-950 focus:outline-none focus:border-rose-700">
+            <select id="filter-status" onchange="renderTable()" class="w-full bg-white border border-rose-900/20 rounded-lg px-3 py-2 text-xs font-bold text-rose-950 focus:outline-none">
               <option value="ALL">Todos os Status / Vencimentos</option>
               <option value="ALERTA">🔔 Em Alerta (Vencidos + Próx. 3 dias)</option>
               <option value="VENCIDO">🚨 Somente Vencidos / Atrasados</option>
@@ -523,17 +465,17 @@
             </select>
           </div>
           <div>
-            <button onclick="resetFilters()" class="w-full bg-white hover:bg-rose-50 text-rose-950 border border-rose-900/20 rounded-lg py-2 text-xs font-bold flex items-center justify-center space-x-1.5 shadow-sm">
-              <i data-lucide="rotate-ccw" class="w-3.5 h-3.5 text-rose-800"></i>
+            <button onclick="resetFilters()" class="w-full bg-white hover:bg-rose-50 text-rose-950 border border-rose-900/20 rounded-lg py-2 text-xs font-bold flex items-center justify-center space-x-1.5">
+              <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
               <span>Limpar Filtros</span>
             </button>
           </div>
         </div>
 
         <!-- TABELA -->
-        <div class="overflow-x-auto rounded-xl border border-rose-900/20 shadow-sm">
+        <div class="overflow-x-auto rounded-xl border border-rose-900/15">
           <table class="w-full text-left text-xs">
-            <thead class="bg-gradient-to-r from-rose-950 via-rose-900 to-rose-950 text-amber-200 font-bold uppercase">
+            <thead class="bg-rose-950 text-amber-50 font-bold uppercase">
               <tr>
                 <th class="py-3.5 px-4">Categoria</th>
                 <th class="py-3.5 px-4">Descrição / Favorecido / Itens</th>
@@ -554,18 +496,18 @@
 
   <!-- MODAL DE VISUALIZAÇÃO NATIVA DE PDF / FOTO -->
   <div id="preview-modal" class="fixed inset-0 z-50 hidden bg-rose-950/75 backdrop-blur-md flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl max-w-4xl w-full h-[85vh] flex flex-col shadow-2xl border-2 border-amber-400/50 overflow-hidden">
-      <div class="flex items-center justify-between px-6 py-4 border-b border-rose-900/15 bg-gradient-to-r from-rose-950 to-rose-900 text-white">
+    <div class="bg-white rounded-2xl max-w-4xl w-full h-[85vh] flex flex-col shadow-2xl border border-rose-900/20 overflow-hidden">
+      <div class="flex items-center justify-between px-6 py-4 border-b border-rose-900/15 bg-rose-50/70">
         <div class="flex items-center space-x-2">
-          <i data-lucide="file-text" class="w-5 h-5 text-amber-300"></i>
-          <span id="preview-title" class="font-bold text-white text-sm">Visualizar Documento</span>
+          <i data-lucide="file-text" class="w-5 h-5 text-rose-900"></i>
+          <span id="preview-title" class="font-bold text-rose-950 text-sm">Visualizar Documento</span>
         </div>
         <div class="flex items-center space-x-2">
-          <a id="preview-download-btn" href="#" download class="px-3 py-1.5 rounded-lg bg-amber-400 hover:bg-amber-300 text-rose-950 text-xs font-extrabold flex items-center space-x-1">
+          <a id="preview-download-btn" href="#" download class="px-3 py-1.5 rounded-lg bg-rose-100 hover:bg-rose-200 text-rose-950 text-xs font-bold flex items-center space-x-1">
             <i data-lucide="download" class="w-3.5 h-3.5"></i>
             <span>Baixar</span>
           </a>
-          <button onclick="closePreviewModal()" class="p-1.5 text-amber-200 hover:text-white rounded-lg"><i data-lucide="x" class="w-5 h-5"></i></button>
+          <button onclick="closePreviewModal()" class="p-1.5 text-stone-500 hover:text-rose-950 rounded-lg"><i data-lucide="x" class="w-5 h-5"></i></button>
         </div>
       </div>
       <div id="preview-body" class="flex-grow bg-stone-100 flex items-center justify-center overflow-auto p-4"></div>
@@ -574,7 +516,7 @@
 
   <!-- MODAL DE EDIÇÃO -->
   <div id="edit-modal" class="fixed inset-0 z-50 hidden bg-rose-950/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
-    <div class="glass-card rounded-2xl p-6 sm:p-8 max-w-xl w-full border-2 border-rose-800/30 shadow-2xl bg-white">
+    <div class="glass-card rounded-2xl p-6 sm:p-8 max-w-xl w-full border border-rose-900/25 shadow-2xl bg-white">
       <div class="flex items-center justify-between border-b border-rose-900/15 pb-4 mb-5">
         <h3 class="text-lg font-black text-rose-950">Editar Lançamento / Atualizar Status</h3>
         <button onclick="closeEditModal()" class="text-stone-500 hover:text-rose-950 p-1.5 rounded-lg bg-rose-50"><i data-lucide="x" class="w-5 h-5"></i></button>
@@ -585,7 +527,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label class="block text-xs font-bold text-rose-950 uppercase mb-1">Categoria</label>
-            <input type="text" id="edit-categoria" readonly class="w-full bg-rose-50/80 border border-rose-900/20 rounded-xl px-3 py-2 text-xs font-bold text-rose-950">
+            <input type="text" id="edit-categoria" readonly class="w-full bg-rose-50/60 border border-rose-900/20 rounded-xl px-3 py-2 text-xs font-bold text-rose-950">
           </div>
           <div>
             <label class="block text-xs font-bold text-rose-950 uppercase mb-1">Status</label>
@@ -897,12 +839,11 @@
         if (ref && ref.length >= 7) months.add(ref.slice(0, 7));
       });
       const mesesNomes = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
-      sel.innerHTML = '<option value="ALL" class="text-stone-900 bg-white">Todos os Meses</option>';
+      sel.innerHTML = '<option value="ALL">Todos os Meses</option>';
       Array.from(months).sort().reverse().forEach(ym => {
         const [y, m] = ym.split('-');
         const opt = document.createElement('option');
         opt.value = ym;
-        opt.className = 'text-stone-900 bg-white';
         opt.textContent = `${mesesNomes[parseInt(m, 10) - 1]}/${y}`;
         sel.appendChild(opt);
       });
@@ -954,15 +895,15 @@
       const bDesc = document.getElementById('alert-banner-desc');
 
       if (vencidoQtd > 0) {
-        banner.className = "rounded-2xl p-4 border-2 border-red-300 bg-gradient-to-r from-red-50 to-rose-100 text-red-950 shadow-md flex flex-col sm:flex-row sm:items-center justify-between gap-3";
-        bIcon.className = "p-2.5 rounded-xl bg-red-700 text-white shrink-0 shadow";
+        banner.className = "rounded-2xl p-4 border border-red-300 bg-red-50/95 text-red-900 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3";
+        bIcon.className = "p-2.5 rounded-xl bg-red-700 text-white shrink-0";
         bIcon.innerHTML = `<i data-lucide="alert-triangle" class="w-5 h-5"></i>`;
         bTitle.textContent = `Atenção: Você possui ${vencidoQtd} conta(s) vencida(s) totalizando ${formatCurrency(vencidoVal)}!`;
         bDesc.textContent = alertaQtd > 0 ? `Além disso, há ${alertaQtd} conta(s) vencendo hoje ou nos próximos 3 dias.` : `Regularize os pagamentos em atraso para evitar juros.`;
         banner.classList.remove('hidden');
       } else if (alertaQtd > 0) {
-        banner.className = "rounded-2xl p-4 border-2 border-amber-400 bg-gradient-to-r from-amber-50 to-yellow-100 text-amber-950 shadow-md flex flex-col sm:flex-row sm:items-center justify-between gap-3";
-        bIcon.className = "p-2.5 rounded-xl bg-amber-500 text-rose-950 shrink-0 shadow";
+        banner.className = "rounded-2xl p-4 border border-amber-300 bg-amber-50/95 text-amber-950 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3";
+        bIcon.className = "p-2.5 rounded-xl bg-amber-600 text-white shrink-0";
         bIcon.innerHTML = `<i data-lucide="bell-ring" class="w-5 h-5"></i>`;
         bTitle.textContent = `Lembrete de Vencimento: ${alertaQtd} conta(s) vencem hoje ou nos próximos 3 dias (${formatCurrency(alertaVal)}).`;
         bDesc.textContent = `Programe o pagamento para manter tudo em dia.`;
@@ -977,9 +918,9 @@
       selectedCategoryTab = cat;
       document.querySelectorAll('.cat-tab').forEach(btn => {
         if (btn.dataset.catTab === cat) {
-          btn.className = "cat-tab px-3.5 py-1.5 rounded-xl text-xs font-bold bg-gradient-to-r from-rose-950 to-rose-800 text-amber-100 shadow-sm";
+          btn.className = "cat-tab px-3.5 py-1.5 rounded-xl text-xs font-bold bg-rose-900 text-white shadow-sm";
         } else {
-          btn.className = "cat-tab px-3.5 py-1.5 rounded-xl text-xs font-bold bg-white text-rose-950 border border-rose-900/20 hover:bg-rose-50";
+          btn.className = "cat-tab px-3.5 py-1.5 rounded-xl text-xs font-bold bg-white text-rose-950 border border-rose-900/15 hover:bg-rose-50";
         }
       });
       renderTable();
@@ -1044,13 +985,13 @@
       filtrados.forEach(item => {
         const sit = getVencimentoStatus(item);
         const tr = document.createElement('tr');
-        tr.className = sit === 'VENCIDO' ? 'bg-red-50/80 hover:bg-red-100/80' : (sit === 'BREVE' ? 'bg-amber-50/80 hover:bg-amber-100/80' : 'hover:bg-rose-50/60');
+        tr.className = sit === 'VENCIDO' ? 'bg-red-50/70 hover:bg-red-100/70' : (sit === 'BREVE' ? 'bg-amber-50/60 hover:bg-amber-100/60' : 'hover:bg-rose-50/50');
 
         let catBadge = 'bg-rose-50 text-rose-950 border-rose-200';
-        if (item.categoria === 'Salários & Folha') catBadge = 'bg-amber-100 text-amber-950 border-amber-400';
-        if (item.categoria === 'Fretes & Logística') catBadge = 'bg-orange-100 text-orange-950 border-orange-300';
-        if (item.categoria === 'Despesas Operacionais & Administrativas') catBadge = 'bg-rose-100 text-rose-950 border-rose-300';
-        if (item.categoria === 'Contas a Pagar & Fixas') catBadge = 'bg-rose-950 text-amber-200 border-amber-400/50';
+        if (item.categoria === 'Salários & Folha') catBadge = 'bg-amber-100 text-amber-900 border-amber-300';
+        if (item.categoria === 'Fretes & Logística') catBadge = 'bg-orange-100 text-orange-900 border-orange-300';
+        if (item.categoria === 'Despesas Operacionais & Administrativas') catBadge = 'bg-rose-100 text-rose-900 border-rose-300';
+        if (item.categoria === 'Contas a Pagar & Fixas') catBadge = 'bg-rose-950 text-amber-200 border-rose-900';
 
         let tituloPrincipal = item.favorecido || item.subcategoria || 'Lançamento';
         let subInfo = [];
@@ -1084,11 +1025,11 @@
         } else if (sit === 'VENCIDO') {
           statusHtml = `<span class="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-red-700 text-white animate-pulse">VENCIDO!</span>`;
         } else if (sit === 'BREVE') {
-          statusHtml = `<span class="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-amber-500 text-rose-950">VENCE EM BREVE</span>`;
+          statusHtml = `<span class="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-amber-600 text-white">VENCE EM BREVE</span>`;
         }
 
         const anexoBtn = item.fileData
-          ? `<button onclick="openPreviewModal('${item.fileName || 'Documento'}', '${item.fileData}')" class="px-2.5 py-1 rounded-lg bg-gradient-to-r from-rose-100 to-amber-100 hover:from-rose-200 hover:to-amber-200 text-rose-950 border border-amber-400/50 font-bold text-[11px] inline-flex items-center gap-1" title="Visualizar Foto / PDF"><i data-lucide="file-text" class="w-3.5 h-3.5 text-rose-800"></i> Ver</button>`
+          ? `<button onclick="openPreviewModal('${item.fileName || 'Documento'}', '${item.fileData}')" class="px-2.5 py-1 rounded-lg bg-rose-100 hover:bg-rose-200 text-rose-950 font-bold text-[11px] inline-flex items-center gap-1" title="Visualizar Foto / PDF"><i data-lucide="file-text" class="w-3.5 h-3.5"></i> Ver</button>`
           : `<span class="text-[10px] text-stone-400">—</span>`;
 
         const quickPayBtn = item.status !== 'Pago'
@@ -1335,279 +1276,25 @@
     window.closePreviewModal = () => document.getElementById('preview-modal').classList.add('hidden');
 
     window.exportToExcel = () => {
-  if (!despesasList.length) return showToast('Nenhum registro para exportar.', 'warning');
-
-  const mesFiltro = document.getElementById('global-mes-filter').value;
-  const dadosFiltrados = despesasList.filter(i => {
-    const ym = (i.vencimento || i.emissao || '').slice(0, 7);
-    return mesFiltro === 'ALL' || ym === mesFiltro;
-  });
-
-  if (!dadosFiltrados.length) return showToast('Nenhum registro no período selecionado.', 'warning');
-
-  const wb = XLSX.utils.book_new();
-  const ws = {};
-  const merges = [];
-
-  // Estilos D'Fitas
-  const borderThin = {
-    top: { style: 'thin', color: { rgb: 'E2E8F0' } },
-    bottom: { style: 'thin', color: { rgb: 'E2E8F0' } },
-    left: { style: 'thin', color: { rgb: 'E2E8F0' } },
-    right: { style: 'thin', color: { rgb: 'E2E8F0' } }
-  };
-
-  const styles = {
-    bannerTitle: {
-      font: { name: 'Calibri', sz: 16, bold: true, color: { rgb: 'FFFFFF' } },
-      fill: { fgColor: { rgb: '4C0519' } },
-      alignment: { horizontal: 'left', vertical: 'center', indent: 1 }
-    },
-    bannerSub: {
-      font: { name: 'Calibri', sz: 10, italic: true, color: { rgb: 'FDE68A' } },
-      fill: { fgColor: { rgb: '881337' } },
-      alignment: { horizontal: 'left', vertical: 'center', indent: 1 }
-    },
-    catHeader: {
-      font: { name: 'Calibri', sz: 11, bold: true, color: { rgb: 'FDE68A' } },
-      fill: { fgColor: { rgb: '881337' } },
-      alignment: { horizontal: 'left', vertical: 'center', indent: 1 }
-    },
-    tableHeader: {
-      font: { name: 'Calibri', sz: 10, bold: true, color: { rgb: 'FFFFFF' } },
-      fill: { fgColor: { rgb: '9F1239' } },
-      alignment: { horizontal: 'center', vertical: 'center' },
-      border: borderThin
-    },
-    cellText: {
-      font: { name: 'Calibri', sz: 10, color: { rgb: '1E293B' } },
-      alignment: { horizontal: 'left', vertical: 'center', wrapText: true },
-      border: borderThin
-    },
-    cellCenter: {
-      font: { name: 'Calibri', sz: 10, color: { rgb: '1E293B' } },
-      alignment: { horizontal: 'center', vertical: 'center' },
-      border: borderThin
-    },
-    cellMoney: {
-      font: { name: 'Calibri', sz: 10, bold: true, color: { rgb: '881337' } },
-      alignment: { horizontal: 'right', vertical: 'center' },
-      numFmt: '"R$" #,##0.00',
-      border: borderThin
-    },
-    statusPago: {
-      font: { name: 'Calibri', sz: 10, bold: true, color: { rgb: '065F46' } },
-      fill: { fgColor: { rgb: 'D1FAE5' } },
-      alignment: { horizontal: 'center', vertical: 'center' },
-      border: borderThin
-    },
-    statusPendente: {
-      font: { name: 'Calibri', sz: 10, bold: true, color: { rgb: '92400E' } },
-      fill: { fgColor: { rgb: 'FEF3C7' } },
-      alignment: { horizontal: 'center', vertical: 'center' },
-      border: borderThin
-    },
-    statusVencido: {
-      font: { name: 'Calibri', sz: 10, bold: true, color: { rgb: '991B1B' } },
-      fill: { fgColor: { rgb: 'FEE2E2' } },
-      alignment: { horizontal: 'center', vertical: 'center' },
-      border: borderThin
-    },
-    subtotalRow: {
-      font: { name: 'Calibri', sz: 10, bold: true, color: { rgb: '4C0519' } },
-      fill: { fgColor: { rgb: 'FFE4E6' } },
-      alignment: { horizontal: 'right', vertical: 'center' },
-      border: borderThin
-    },
-    subtotalMoney: {
-      font: { name: 'Calibri', sz: 10, bold: true, color: { rgb: '4C0519' } },
-      fill: { fgColor: { rgb: 'FFE4E6' } },
-      alignment: { horizontal: 'right', vertical: 'center' },
-      numFmt: '"R$" #,##0.00',
-      border: borderThin
-    },
-    resumoTitle: {
-      font: { name: 'Calibri', sz: 11, bold: true, color: { rgb: 'FFFFFF' } },
-      fill: { fgColor: { rgb: '4C0519' } },
-      alignment: { horizontal: 'center', vertical: 'center' },
-      border: borderThin
-    },
-    resumoLabel: {
-      font: { name: 'Calibri', sz: 10, bold: true, color: { rgb: '1E293B' } },
-      fill: { fgColor: { rgb: 'FFF1F2' } },
-      alignment: { horizontal: 'left', vertical: 'center' },
-      border: borderThin
-    }
-  };
-
-  const setCell = (r, c, val, style, formula = null) => {
-    const addr = XLSX.utils.encode_cell({ r, c });
-    const cell = { v: val, s: style };
-    if (formula) {
-      cell.f = formula;
-      cell.t = 'n';
-    } else if (typeof val === 'number') {
-      cell.t = 'n';
-    } else {
-      cell.t = 's';
-    }
-    ws[addr] = cell;
-  };
-
-  // Cabeçalho Principal (Linhas 1 e 2)
-  const periodoTexto = mesFiltro === 'ALL' ? 'Todos os Meses' : `Período: ${mesFiltro}`;
-  setCell(0, 0, "D'FITAS FINANCEIRO — RELATÓRIO DE DESPESAS & CONTAS", styles.bannerTitle);
-  setCell(1, 0, `${periodoTexto}  |  Gerado em: ${new Date().toLocaleDateString('pt-BR')}  |  Dica: Altere Status para "Pago" ou "Pendente" para recalcular os totais`, styles.bannerSub);
-  for (let c = 1; c <= 7; c++) {
-    setCell(0, c, '', styles.bannerTitle);
-    setCell(1, c, '', styles.bannerSub);
-  }
-  merges.push({ s: { r: 0, c: 0 }, e: { r: 0, c: 7 } });
-  merges.push({ s: { r: 1, c: 0 }, e: { r: 1, c: 7 } });
-
-  // Quadro de Resumo Gerencial no Topo (Linhas 4 a 10 - índices 3 a 9)
-  const categoriasOrdem = [
-    { key: 'Despesas Operacionais & Administrativas', titulo: 'CATEGORIA: DESPESAS OPERACIONAIS & ADMINISTRATIVAS' },
-    { key: 'Fretes & Logística', titulo: 'CATEGORIA: FRETES & LOGÍSTICA' },
-    { key: 'Contas a Pagar & Fixas', titulo: 'CATEGORIA: CONTAS A PAGAR & FIXAS' },
-    { key: 'Salários & Folha', titulo: 'CATEGORIA: SALÁRIOS & FOLHA' }
-  ];
-
-  // Primeiro montamos as seções a partir da linha 12 (índice 11) para saber os intervalos exatos de linhas
-  let rowIdx = 11;
-  const catRanges = {}; // Guarda { startRow1Based, endRow1Based, subtotalRow1Based }
-
-  categoriasOrdem.forEach(catObj => {
-    const itensCat = dadosFiltrados.filter(i => i.categoria === catObj.key);
-    if (!itensCat.length) return;
-
-    // Faixa de Título da Categoria
-    setCell(rowIdx, 0, catObj.titulo, styles.catHeader);
-    for (let c = 1; c <= 7; c++) setCell(rowIdx, c, '', styles.catHeader);
-    merges.push({ s: { r: rowIdx, c: 0 }, e: { r: rowIdx, c: 7 } });
-    rowIdx++;
-
-    // Cabeçalho da Tabela da Categoria
-    const headers = [
-      'Favorecido / Tipo',
-      'Detalhes / Itens / NF',
-      'Data Emissão',
-      'Vencimento',
-      'Forma Pagamento',
-      'Status (Editável)',
-      'Valor (R$)',
-      'Observações'
-    ];
-    headers.forEach((h, c) => setCell(rowIdx, c, h, styles.tableHeader));
-    rowIdx++;
-
-    const firstDataRow1Based = rowIdx + 1;
-
-    itensCat.forEach(item => {
-      const sit = getVencimentoStatus(item);
-      let favorecido = item.favorecido || item.subcategoria || '—';
-      let detalhe = '—';
-
-      if (item.categoria === 'Despesas Operacionais & Administrativas') {
-        favorecido = item.subcategoria || item.favorecido || 'Despesa Operacional';
-        detalhe = Array.isArray(item.itens) ? item.itens.join(', ') : (item.itens || '—');
-      } else if (item.categoria === 'Fretes & Logística') {
-        detalhe = item.tipoGasto || '—';
-      } else if (item.categoria === 'Contas a Pagar & Fixas') {
-        detalhe = item.numero ? `NF/Doc: ${item.numero}` : '—';
-      }
-
-      const statusStyle = item.status === 'Pago'
-        ? styles.statusPago
-        : (sit === 'VENCIDO' ? styles.statusVencido : styles.statusPendente);
-
-      setCell(rowIdx, 0, favorecido, styles.cellText);
-      setCell(rowIdx, 1, detalhe, styles.cellText);
-      setCell(rowIdx, 2, formatDate(item.emissao), styles.cellCenter);
-      setCell(rowIdx, 3, formatDate(item.vencimento), styles.cellCenter);
-      setCell(rowIdx, 4, item.forma || '—', styles.cellCenter);
-      setCell(rowIdx, 5, item.status || 'Pendente', statusStyle);
-      setCell(rowIdx, 6, Number(item.valor || 0), styles.cellMoney);
-      setCell(rowIdx, 7, item.observacoes || '', styles.cellText);
-      rowIdx++;
-    });
-
-    const lastDataRow1Based = rowIdx;
-    const subtotalRow1Based = rowIdx + 1;
-
-    // Linha de Subtotal da Categoria com Fórmula SUM
-    setCell(rowIdx, 0, `SUBTOTAL — ${catObj.key.toUpperCase()}`, styles.subtotalRow);
-    for (let c = 1; c <= 5; c++) setCell(rowIdx, c, '', styles.subtotalRow);
-    merges.push({ s: { r: rowIdx, c: 0 }, e: { r: rowIdx, c: 5 } });
-    setCell(rowIdx, 6, 0, styles.subtotalMoney, `SUM(G${firstDataRow1Based}:G${lastDataRow1Based})`);
-    setCell(rowIdx, 7, '', styles.subtotalRow);
-
-    catRanges[catObj.key] = {
-      start: firstDataRow1Based,
-      end: lastDataRow1Based,
-      sub: subtotalRow1Based
+      if (!despesasList.length) return showToast('Nenhum registro para exportar.', 'warning');
+      const rows = despesasList.map(i => ({
+        Categoria: i.categoria,
+        Favorecido_ou_Tipo: i.favorecido || i.subcategoria || '',
+        Detalhes_NF_Itens_Gasto: i.numero || i.tipoGasto || (Array.isArray(i.itens) ? i.itens.join(', ') : ''),
+        Data_Emissao: formatDate(i.emissao),
+        Vencimento: formatDate(i.vencimento),
+        Valor: Number(i.valor || 0),
+        Forma_Pagamento: i.forma || '',
+        Status: i.status,
+        Observacoes: i.observacoes || ''
+      }));
+      const ws = XLSX.utils.json_to_sheet(rows);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, 'Despesas_DFitas');
+      XLSX.writeFile(wb, `DFitas_Relatorio_Despesas_${new Date().toISOString().slice(0, 10)}.xlsx`);
+      showToast('Planilha Excel exportada!', 'success');
     };
 
-    rowIdx += 2; // Linha em branco separando os blocos
-  });
-
-  // Agora preenche o Quadro de Resumo Gerencial Dinâmico no Topo (Linhas 4 a 9 -> índices 3 a 8)
-  setCell(3, 0, 'RESUMO EXECUTIVO POR CATEGORIA (DINÂMICO)', styles.resumoTitle);
-  setCell(3, 1, '', styles.resumoTitle);
-  setCell(3, 2, 'Total Pago', styles.resumoTitle);
-  setCell(3, 3, 'Total Pendente', styles.resumoTitle);
-  setCell(3, 4, 'Total Geral', styles.resumoTitle);
-  merges.push({ s: { r: 3, c: 0 }, e: { r: 3, c: 1 } });
-
-  let rResumo = 4;
-  categoriasOrdem.forEach(catObj => {
-    const rng = catRanges[catObj.key];
-    setCell(rResumo, 0, catObj.key, styles.resumoLabel);
-    setCell(rResumo, 1, '', styles.resumoLabel);
-    merges.push({ s: { r: rResumo, c: 0 }, e: { r: rResumo, c: 1 } });
-
-    if (rng) {
-      setCell(rResumo, 2, 0, styles.cellMoney, `SUMIFS(G${rng.start}:G${rng.end},F${rng.start}:F${rng.end},"Pago")`);
-      setCell(rResumo, 3, 0, styles.cellMoney, `SUMIFS(G${rng.start}:G${rng.end},F${rng.start}:F${rng.end},"Pendente")`);
-      setCell(rResumo, 4, 0, styles.subtotalMoney, `SUM(C${rResumo + 1}:D${rResumo + 1})`);
-    } else {
-      setCell(rResumo, 2, 0, styles.cellMoney);
-      setCell(rResumo, 3, 0, styles.cellMoney);
-      setCell(rResumo, 4, 0, styles.subtotalMoney);
-    }
-    rResumo++;
-  });
-
-  // Linha de Total Geral Consolidado no Resumo (Linha 9 -> índice 8)
-  setCell(rResumo, 0, 'TOTAL GERAL CONSOLIDADO', styles.subtotalRow);
-  setCell(rResumo, 1, '', styles.subtotalRow);
-  merges.push({ s: { r: rResumo, c: 0 }, e: { r: rResumo, c: 1 } });
-  setCell(rResumo, 2, 0, styles.subtotalMoney, 'SUM(C5:C8)');
-  setCell(rResumo, 3, 0, styles.subtotalMoney, 'SUM(D5:D8)');
-  setCell(rResumo, 4, 0, styles.subtotalMoney, 'SUM(E5:E8)');
-
-  // Configuração final da planilha
-  ws['!ref'] = XLSX.utils.encode_range({ s: { r: 0, c: 0 }, e: { r: Math.max(rowIdx, 10), c: 7 } });
-  ws['!merges'] = merges;
-  ws['!cols'] = [
-    { wch: 32 }, // A: Favorecido / Tipo
-    { wch: 38 }, // B: Detalhes / Itens / NF
-    { wch: 15 }, // C: Data Emissão
-    { wch: 15 }, // D: Vencimento
-    { wch: 20 }, // E: Forma Pagamento
-    { wch: 18 }, // F: Status
-    { wch: 18 }, // G: Valor
-    { wch: 30 }  // H: Observações
-  ];
-  ws['!rows'] = [
-    { hpt: 28 },
-    { hpt: 20 }
-  ];
-
-  XLSX.utils.book_append_sheet(wb, ws, 'Relatorio_DFitas');
-  XLSX.writeFile(wb, `DFitas_Financeiro_${new Date().toISOString().slice(0, 10)}.xlsx`);
-  showToast('Planilha Excel gerencial exportada com sucesso!', 'success');
-};
     window.maskCurrencyInput = (input) => {
       let v = input.value.replace(/\D/g, "");
       if (!v) { input.value = ""; return; }
